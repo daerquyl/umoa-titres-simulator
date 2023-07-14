@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umoa.Titres.Interest.Simulator.Core", "Umoa.Titres.Interest.Simulator.Core\Umoa.Titres.Interest.Simulator.Core.csproj", "{E97FE453-7213-43B8-BCAB-76E88FB436F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umoa.Titres.Interest.Simulator.Core.Tests", "Umoa.Titres.Interest.Simulator.Core.Tests\Umoa.Titres.Interest.Simulator.Core.Tests.csproj", "{12F3EFF1-1D30-4771-8420-53D4B6486CF9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umoa.Titres.Interest.Simulator.Web.Api", "Umoa.Titres.Interest.Simulator.Web.Api\Umoa.Titres.Interest.Simulator.Web.Api.csproj", "{326FC5E3-110D-465D-9BF8-1CDD9155AF4A}"
 EndProject
 Global
@@ -22,10 +20,6 @@ Global
 		{E97FE453-7213-43B8-BCAB-76E88FB436F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97FE453-7213-43B8-BCAB-76E88FB436F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97FE453-7213-43B8-BCAB-76E88FB436F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12F3EFF1-1D30-4771-8420-53D4B6486CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12F3EFF1-1D30-4771-8420-53D4B6486CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12F3EFF1-1D30-4771-8420-53D4B6486CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12F3EFF1-1D30-4771-8420-53D4B6486CF9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{326FC5E3-110D-465D-9BF8-1CDD9155AF4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{326FC5E3-110D-465D-9BF8-1CDD9155AF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{326FC5E3-110D-465D-9BF8-1CDD9155AF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
