@@ -27,7 +27,6 @@
 # IDEs and Editors
 **/.vscode/
 **/.idea/
-**/*.sln
 **/*.csproj.user
 **/*.sw*
 **/*.suo
