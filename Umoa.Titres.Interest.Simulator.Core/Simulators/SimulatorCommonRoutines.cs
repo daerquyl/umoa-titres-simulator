@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Office.Interop.Excel;
 using System.Security.Cryptography;
 using Umoa.Titres.Interest.Simulator.Core.Models;
 using Umoa.Titres.Interest.Simulator.Core.Utils;
@@ -34,8 +33,8 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
         (double value, DateTime date) echeance(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => (valeurNominaleDouble * coupon, dateEcheance.AddYears(-(duree - iteration))),
-            InvestmentPeriodicityType.S => (valeurNominaleDouble / factor * coupon, dateEcheance.AddSemesters(duree - iteration)),
-            InvestmentPeriodicityType.T => (valeurNominaleDouble / factor * coupon, dateEcheance.AddTrimesters(duree - iteration)),
+            InvestmentPeriodicityType.S => (valeurNominaleDouble / factor * coupon, dateEcheance.RemoveSemesters(duree - iteration)),
+            InvestmentPeriodicityType.T => (valeurNominaleDouble / factor * coupon, dateEcheance.RemoveTrimesters(duree - iteration)),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
@@ -71,16 +70,16 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
         DateTime echeance(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees - iteration)),
-            InvestmentPeriodicityType.S => dateEcheance.AddSemesters(dureeEnAnnees - iteration),
-            InvestmentPeriodicityType.T => dateEcheance.AddTrimesters(dureeEnAnnees - iteration),
+            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters(dureeEnAnnees - iteration),
+            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters(dureeEnAnnees - iteration),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
         DateTime echeance2(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
-            InvestmentPeriodicityType.S => dateEcheance.AddSemesters((dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
-            InvestmentPeriodicityType.T => dateEcheance.AddTrimesters((dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
+            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters((dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
+            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters((dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
@@ -142,74 +141,6 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
                         }
                     }
                 }
-                //if (differe % 2 == 0)
-                //{
-                //    if ((iteration - 1 - differe) <= 0)
-                //    {
-                //        periodeCourante = echeance(iteration);
-                //        var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
-                //        if (dateValeur <= periodeCourante)
-                //        {
-                //            echeancier.Add((calculateValue(periodePrecedente, periodeCourante), periodeCourante));
-                //            cursor++;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        if (iteration % 2 == 0)
-                //        {
-                //            if (dateValeur <= periodeCourante)
-                //            {
-                //                updateEcheancier(cursor);
-                //            }
-                //        }
-                //        else
-                //        {
-                //            parallelIteration++;
-                //            parallelPeriodeCourante = echeance2(parallelIteration);
-                //            var parallelPeriodePrecedente = new DateTime(parallelPeriodeCourante.Year - 1, parallelPeriodeCourante.Month, parallelPeriodeCourante.Day);
-                //            if (dateValeur <= parallelPeriodeCourante)
-                //            {
-                //                echeancier.Add((calculateValue2(parallelIteration, parallelPeriodePrecedente, parallelPeriodeCourante), parallelPeriodeCourante));
-                //                cursor++;
-                //            }
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    if ((iteration - 1 - differe) <= 0)
-                //    {
-                //        periodeCourante = echeance(iteration);
-                //        var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
-                //        if (dateValeur <= periodeCourante)
-                //        {
-                //            echeancier.Add((calculateValue(periodePrecedente, periodeCourante), periodeCourante));
-                //            cursor++;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        if (iteration % 2 != 0)
-                //        {
-                //            if (dateValeur <= periodeCourante)
-                //            {
-                //                updateEcheancier(cursor);
-                //            }
-                //        }
-                //        else
-                //        {
-                //            parallelIteration++;
-                //            parallelPeriodeCourante = echeance2(parallelIteration);
-                //            var parallelPeriodePrecedente = new DateTime(parallelPeriodeCourante.Year - 1, parallelPeriodeCourante.Month, parallelPeriodeCourante.Day);
-                //            if (dateValeur <= parallelPeriodeCourante)
-                //            {
-                //                echeancier.Add((calculateValue2(parallelIteration, parallelPeriodePrecedente, parallelPeriodeCourante), parallelPeriodeCourante));
-                //                cursor++;
-                //            }
-                //        }
-                //    }
-                //}
             }
 
         return echeancier;
@@ -267,7 +198,7 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
                 if (iteration % 2 != 0)
                 {
                     impairIteration++;
-                    var periodeCourante = dateEcheance.AddSemesters(annRest - impairIteration);
+                    var periodeCourante = dateEcheance.RemoveSemesters(annRest - impairIteration);
                     if (dateValeur < periodeCourante)
                     {
                         var value = (valeurNominale - valeurNominale / annRest * pairIteration) * coupon / 2;
@@ -277,7 +208,7 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
                 }
                 else
                 {
-                    var periodeCourante = dateEcheance.AddSemesters(annRest - impairIteration);
+                    var periodeCourante = dateEcheance.RemoveSemesters(annRest - impairIteration);
                     if (dateValeur < periodeCourante)
                     {
                         var periodePrecedente = echeancier[cursor - 1].date;
@@ -301,7 +232,7 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
                 if (iteration % 2 != 0)
                 {
                     impairIteration++;
-                    var periodeCourante = dateEcheance.AddTrimesters(annRest - impairIteration);
+                    var periodeCourante = dateEcheance.RemoveTrimesters(annRest - impairIteration);
                     if (dateValeur < periodeCourante)
                     {
                         var value = (valeurNominale - valeurNominale / annRest * pairIteration) * coupon / 4;
@@ -311,7 +242,7 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
                 }
                 else
                 {
-                    var periodeCourante = dateEcheance.AddTrimesters(annRest - impairIteration);
+                    var periodeCourante = dateEcheance.RemoveTrimesters(annRest - impairIteration);
                     if (dateValeur < periodeCourante)
                     {
                         var periodePrecedente = echeancier[cursor - 1].date;

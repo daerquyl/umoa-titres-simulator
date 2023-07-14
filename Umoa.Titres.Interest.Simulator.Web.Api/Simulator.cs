@@ -12,16 +12,19 @@ public interface ISimulatorController
 {
     public SimulationResults Run(OATInvestmentDetails details);
     public OATAmortizationTable GetAmortizationTable(OATInvestmentDetails details);
+    object Run(BondInvestmentDetails investmentDetails);
 }
 
 
 public class SimulatorController : ISimulatorController
 {
-    private ISimulator simulator;
+    private IOATSimulator oatSimulator;
+    private IBondSimulator bondSimulator;
 
-	public SimulatorController(ISimulator simulator)
+	public SimulatorController(IOATSimulator oatSimulator, IBondSimulator bondSimulator)
 	{
-        this.simulator = simulator;
+        this.oatSimulator = oatSimulator;
+        this.bondSimulator = bondSimulator;
 	}
 
     public SimulationResults Run(OATInvestmentDetails details)
@@ -31,17 +34,17 @@ public class SimulatorController : ISimulatorController
 
         if (details.TauxRendement is not null)
         {
-            prix = simulator.CalculPrix(details);
+            prix = oatSimulator.CalculPrix(details);
             rendement = details.TauxRendement.Value;
             
         }
         else
         {
-            rendement = simulator.CalculRendement(details);
+            rendement = oatSimulator.CalculRendement(details);
             prix = details.Prix.Value;
         }
 
-        couponCouru = simulator.CalculCouponCouru(details.DateEcheance, details.DateValeur, details.MaturiteEnAnnes, details.Coupon, details.Periodicite);
+        couponCouru = oatSimulator.CalculCouponCouru(details.DateEcheance, details.DateValeur, details.MaturiteEnAnnes, details.Coupon, details.Periodicite);
         montantNet = details.MontantAPlacer * (prix + couponCouru) / 100;
         interets = details.MontantAPlacer * couponCouru / 100;
 
@@ -51,7 +54,15 @@ public class SimulatorController : ISimulatorController
 
     public OATAmortizationTable GetAmortizationTable(OATInvestmentDetails details)
     {
-        return simulator.CalculAmortissement(details);
+        return oatSimulator.CalculAmortissement(details);
+    }
+
+    public object Run(BondInvestmentDetails investmentDetails)
+    {
+        var montantNet = bondSimulator.CalculMontantNet(investmentDetails);
+        var interets = bondSimulator.CalculInterets(investmentDetails);
+
+        return new BondSimulationResults(montantNet: montantNet, interets: interets);
     }
 }
 

@@ -31,8 +31,8 @@ public class CouponCouruSimulator : ICouponCouruSimulator
         DateTime periode(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees - iteration)),
-            InvestmentPeriodicityType.S => dateEcheance.AddSemesters(dureeEnAnnees * factor - iteration),
-            InvestmentPeriodicityType.T => dateEcheance.AddTrimesters(dureeEnAnnees * factor - iteration),
+            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters(dureeEnAnnees * factor - iteration),
+            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters(dureeEnAnnees * factor - iteration),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 

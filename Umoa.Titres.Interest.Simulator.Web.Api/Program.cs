@@ -36,7 +36,8 @@ builder.Services.AddSingleton<IPrixSimulator, PrixSimulator>();
 builder.Services.AddSingleton<IRendementSimulator, RendementSimulator>();
 builder.Services.AddSingleton<IAmortissementSimulator, AmortissementSimulator>();
 builder.Services.AddSingleton<ISimulatorCommonRoutines, SimulatorCommonRoutines>();
-builder.Services.AddSingleton<ISimulator, Simulator>();
+builder.Services.AddSingleton<IOATSimulator, OATSimulator>();
+builder.Services.AddSingleton<IBondSimulator, BondSimulator>();
 
 var app = builder.Build();
 
@@ -46,6 +47,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseCors();
+
+app.UseStaticFiles();
 
 app.MapGet("/simulator/amortization_modes", () => 
 {
@@ -108,6 +111,21 @@ app.MapPost("/simulator/run/oat", ([FromBody] OATSimulationInput details, ISimul
     return simulator.Run(investmentDetails);
 });
 
+app.MapPost("/simulator/run/bonds", ([FromBody] BondSimulationInput details, ISimulatorController simulator) => {
+    var investmentDetails = new BondInvestmentDetails(
+        details.DateValeur,
+        details.DateEcheance,
+        details.Coupon,
+        details.MaturiteEnJours,
+        details.MaturiteResiduel,
+        details.ValeurNominale,
+        details.TauxRendement,
+        details.MontantAPlacer
+    );
+
+    return simulator.Run(investmentDetails);
+});
+
 app.MapPost("/simulator/amortization/oat", ([FromBody] OATSimulationInput details, ISimulatorController simulator) => {
     var investmentDetails = new OATInvestmentDetails(
             Enum.Parse<AmortizationType>(details.ModeAmortissement),
@@ -125,15 +143,15 @@ app.MapPost("/simulator/amortization/oat", ([FromBody] OATSimulationInput detail
     investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.RENDEMENT, double.Parse(details.TauxRendement.Trim(), CultureInfo.InvariantCulture));
 
     var amortissement = simulator.GetAmortizationTable(investmentDetails);
-    var i = 1;
+
     return amortissement.Lines.Select(line => new AmortizationLineDto()
     {
-        Fraction = i++,
+        Fraction = Math.Round(line.Fraction, 9),
         Date = line.Date.ToString("dd.MMM.yy"),
-        Encours = line.Encours,
-        Interets = Math.Round(line.Interets,2),
-        Amortissement = line.Amortissement,
-        Service = Math.Round(line.Service,2)
+        Encours = Math.Round(line.Encours),
+        Interets = Math.Round(line.Interets),
+        Amortissement = Math.Round(line.Amortissement),
+        Service = Math.Round(line.Service)
     }).ToList();
 });
 

@@ -3,53 +3,26 @@ namespace Umoa.Titres.Interest.Simulator.Core.Utils;
 
 public static class DateUtil 
 {
-    //public static double YearFraction(this DateTime startDate, DateTime endDate, int mode=1)
-    //{
-    //    TimeSpan duration;
-    //    double daysInYear = 0;
-    //    if (mode == 0)
-    //    {
-    //        daysInYear = 365;
-    //    }
-    //    else if(mode == 1)
-    //    {
-    //        var starPlusOneIsAfterEndDate = startDate.Month > endDate.Month || (startDate.Month == endDate.Month && startDate.Day > endDate.Day);
-    //        if ((endDate.Year - 1 == startDate.Year) && (starPlusOneIsAfterEndDate))
-    //        {
-    //            var isFeburary29 = startDate.Month == 2 && startDate.Day <= 29;
+    public static double YearFraction(this DateTime startDate, DateTime endDate, int basis = 1)
+    {
+        int num;
+        double denom;
 
-    //            daysInYear = (startDate.Year == endDate.Year) switch
-    //            {
-    //                true when DateTime.IsLeapYear(startDate.Year) => 366,
-    //                false when DateTime.IsLeapYear(startDate.Year) => startDate.Month < 2 || isFeburary29 ? 366 : 365,
-    //                false when DateTime.IsLeapYear(endDate.Year) => endDate.Month > 2 || isFeburary29 ? 366 : 365,
-    //                _ => 365
-    //            };
-    //        }
-    //        else {
+        if (basis == 2)
+        {
+            num = startDate.DaysBetween(endDate);
+            denom = 360;
+        }
+        else
+        {
+            num = startDate.DaysBetween(endDate);
+            denom = YearFracBase(startDate, endDate, basis);
+        }
 
-    //            double tmp = 0.0;
-    //            for (int y = startDate.Year; y <= endDate.Year; y++)
-    //            {
-    //                if (DateTime.IsLeapYear(y))
-    //                {
-    //                    tmp += 366.0;
-    //                }
-    //                else
-    //                {
-    //                    tmp += 365.0;
-    //                }
-    //            }
-    //            daysInYear = tmp / (endDate.Year - startDate.Year + 1.0);
-    //        }
+        return num / denom;
+    }
 
-    //    }
-
-    //    duration = endDate - startDate;
-    //    return duration.Days / daysInYear;
-    //}
-
-    public static double YearFracBase(this DateTime StartDate, DateTime EndDate, int Basis=0)
+    private static double YearFracBase(this DateTime StartDate, DateTime EndDate, int Basis=0)
     {
         int StartDay;
         int StartMonth;
@@ -136,30 +109,18 @@ public static class DateUtil
         return 0;
     }
 
-    public static double YearFraction(this DateTime StartDate, DateTime EndDate, int Basis = 1)
-    {
-        int nNumerator;
-        double nDenom;
-
-        nNumerator = StartDate.DaysBetween(EndDate);
-        nDenom = YearFracBase(StartDate, EndDate, Basis);
-
-        return nNumerator / nDenom;
-    }
-
-
     public static int DaysBetween(this DateTime startDate, DateTime endDate)
     {
         TimeSpan difference = endDate - startDate;
         return difference.Days;
     }
 
-    public static DateTime AddSemesters(this DateTime date, int semesters)
+    public static DateTime RemoveSemesters(this DateTime date, int semesters)
     {
         return date.AddMonths(-6 * semesters);
     }
 
-    public static DateTime AddTrimesters(this DateTime date, int trimesters)
+    public static DateTime RemoveTrimesters(this DateTime date, int trimesters)
     {
         return date.AddMonths(-3 * trimesters);
     }

@@ -1,6 +1,6 @@
 using Umoa.Titres.Interest.Simulator.Core.Models;
 using Umoa.Titres.Interest.Simulator.Core.Simulators;
-using CoreSimulator = Umoa.Titres.Interest.Simulator.Core.Simulators.Simulator;
+using CoreSimulator = Umoa.Titres.Interest.Simulator.Core.Simulators.OATSimulator;
 namespace Umoa.Titres.Interest.Simulator.Core.Tests;
 
 
