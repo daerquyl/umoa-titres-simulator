@@ -1,0 +1,41 @@
+# .NET
+**/bin/
+**/obj/
+**/*.dll
+**/*.exe
+**/*.pdb
+**/*.user
+**/*.suo
+**/*.cache
+**/*.log
+**/*.vs/
+!**/*.csproj
+!**/*.config
+
+# Node.js
+**/node_modules/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# React
+**/build/
+**/dist/
+**/coverage/
+**/*.env
+
+# IDEs and Editors
+**/.vscode/
+**/.idea/
+**/*.sln
+**/*.csproj.user
+**/*.sw*
+**/*.suo
+**/*.userprefs
+**/*.log
+**/.DS_Store
+
+# Logs and Debugging
+**/logs/
+**/*.log
+**/debug.log
