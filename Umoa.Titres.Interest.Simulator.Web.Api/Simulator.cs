@@ -48,7 +48,7 @@ public class SimulatorController : ISimulatorController
         montantNet = details.MontantAPlacer * (prix + couponCouru) / 100;
         interets = details.MontantAPlacer * couponCouru / 100;
 
-        return new OATSimulationResults(couponCouru, prix, rendement, montantNet, interets);
+        return new OATSimulationResults(couponCouru, prix, rendement, Utils.Round(montantNet).ToCFA(), Utils.Round(interets).ToCFA());
 
     }
 
@@ -62,7 +62,7 @@ public class SimulatorController : ISimulatorController
         var montantNet = bondSimulator.CalculMontantNet(investmentDetails);
         var interets = bondSimulator.CalculInterets(investmentDetails);
 
-        return new BondSimulationResults(montantNet: montantNet, interets: interets);
+        return new BondSimulationResults(montantNet: Utils.Round(montantNet).ToCFA(), interets: Utils.Round(interets).ToCFA());
     }
 }
 

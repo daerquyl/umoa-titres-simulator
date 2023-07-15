@@ -83,7 +83,7 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
-        int annRest = (int)Math.Ceiling(dateValeur.YearFraction(dateEcheance)) * factor;
+        int annRest = (int)Math.Ceiling(dateValeur.YearFraction(dateEcheance) * factor) ;
         if (annRest < (dureeEnAnnees - differe))
         {
             valeurNominale = valeurNominale * (dureeEnAnnees - differe) / annRest;
@@ -135,7 +135,8 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
 
                         if (dateValeur <= parallelPeriodeCourante)
                         {
-                            var value = calculateValue2(parallelIteration, parallelPeriodePrecedente, parallelPeriodeCourante) / factor;
+                            var multiplicator = periodicite == InvestmentPeriodicityType.A ? parallelPeriodePrecedente.YearFraction(parallelPeriodeCourante) : 1.0 / factor;
+                            var value = calculateValue2(parallelIteration, parallelPeriodePrecedente, parallelPeriodeCourante) * multiplicator;
                             echeancier.Add((value, parallelPeriodeCourante));
                             cursor++;
                         }

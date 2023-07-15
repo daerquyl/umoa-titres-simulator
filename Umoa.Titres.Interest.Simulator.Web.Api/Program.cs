@@ -148,10 +148,10 @@ app.MapPost("/simulator/amortization/oat", ([FromBody] OATSimulationInput detail
     {
         Fraction = Math.Round(line.Fraction, 9),
         Date = line.Date.ToString("dd.MMM.yy"),
-        Encours = Math.Round(line.Encours),
-        Interets = Math.Round(line.Interets),
-        Amortissement = Math.Round(line.Amortissement),
-        Service = Math.Round(line.Service)
+        Encours = Utils.Round(line.Encours).ToCFA(),
+        Interets = Utils.Round(line.Interets).ToCFA(),
+        Amortissement = Utils.Round(line.Amortissement).ToCFA(),
+        Service = Utils.Round(line.Service).ToCFA()
     }).ToList();
 });
 
