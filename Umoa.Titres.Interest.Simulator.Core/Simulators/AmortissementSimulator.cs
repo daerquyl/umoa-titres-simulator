@@ -74,13 +74,13 @@ public class AmortissementSimulator : IAmortissementSimulator
 
             if (dateValeur < periodeCourante)
             {
-                cursorEcheancier++;
+                
 
                 var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
 
                 var date = periodeCourante;
                 var interet = montantAPlacer * coupon * periodePrecedente.YearFraction(periodeCourante);
-                var fraction = cursorEcheancier == 1
+                var fraction = cursorEcheancier == 0
                     ? dateValeur.YearFraction(date)
                     : table.Lines[cursorEcheancier - 1].Fraction + table.Lines[cursorEcheancier - 1].Date.YearFraction(date);
                 if (iteration != duree)
@@ -95,6 +95,7 @@ public class AmortissementSimulator : IAmortissementSimulator
                     var amortissement = montantAPlacer;
                     table.AddLine(0, date, encours, interet, amortissement);
                 }
+                cursorEcheancier++;
             }
         }
         return table;
