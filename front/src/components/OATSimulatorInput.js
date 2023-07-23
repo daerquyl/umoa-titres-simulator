@@ -20,6 +20,8 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
   const [modeAmortissements, setModeAmortissements] = useState([]);
   const [periodicites, setPeriodicites] = useState([]);
   const [maturiteEnAnnes, setMaturiteEnAnnes] = useState([]);
+
+  const [showDiffere, setShowDiffere] = useState(false);
  
   useEffect(() => {
     const fetchData = async () => {
@@ -41,8 +43,17 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
   const onIsinChange = async (event) => {
     const newIsin = event.target.value;
     setIsin(newIsin);
-    updateFormData(await getOATSimulationDetails(newIsin));
+    
+    let details = await getOATSimulationDetails(newIsin)
+    updateFormData(details);
+
+    onModeAmortissementChanged({target: { value: details.modeAmortissement, name: "modeAmortissement" }})
   };
+
+  const onModeAmortissementChanged = (e) => {
+      onFormChange(e);
+      setShowDiffere(e.target.value != "IF");
+  }
 
   const onFormChange = (event) => {
     const { name, value } = event.target;
@@ -56,6 +67,8 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
     isin,
     isins,
     onIsinChange,
+    onModeAmortissementChanged,
+    showDiffere,
     modeAmortissements,
     periodicites,
     maturiteEnAnnes,

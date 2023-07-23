@@ -34,7 +34,7 @@ const App = () => {
             className={`fw-bold nav-link ${activeTab === "OAT" ? "active bg-secondary" : "bg-light"}`}
             onClick={() => handleTabChange("OAT")}
           >
-            OAT
+            {TranslationService.translate("titre_ot", lang)}
           </a>
         </li>
         <li className="nav-item">
@@ -42,7 +42,7 @@ const App = () => {
             className={`fw-bold nav-link ${activeTab === "BONDS" ? "active bg-secondary" : "bg-light"}`}
             onClick={() => handleTabChange("BONDS")}
           >
-            BONDS
+            {TranslationService.translate("titre_bons", lang)}
           </a>
         </li>
       </ul>
