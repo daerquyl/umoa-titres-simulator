@@ -27,7 +27,6 @@ const BondsSimulator = ({lang}) => {
   }, [formData])
 
   const isFormValid = () => {
-    console.log(formData)
     const isValid = formData.dateValeur &&
     formData.dateEcheance && 
     formData.coupon && 
@@ -40,8 +39,7 @@ const BondsSimulator = ({lang}) => {
   }
 
   const updateFormData = (updates) => {
-    var newFormData = {...formData, ...updates};
-    setFormData(newFormData);
+    setFormData(prev => ({...prev, ...updates}));
   }
 
   const canSubmit = () => {
@@ -51,7 +49,6 @@ const BondsSimulator = ({lang}) => {
   const submitForm = () => {
     const launchSimulation = async () => {
       let resultats = await getResultBonds(formData);
-      console.log(resultats);
       setResults(resultats);
     }
 
@@ -61,7 +58,7 @@ const BondsSimulator = ({lang}) => {
   return (
     <div>
       <BondSimulatorInput formData={formData} updateFormData={updateFormData} lang={lang}/>
-      <BondSimulatorResult results={results} lang={lang}/>
+      <BondSimulatorResult results={results} formData={formData} lang={lang}/>
     </div>
   );
 };

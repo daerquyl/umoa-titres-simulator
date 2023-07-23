@@ -1,5 +1,4 @@
 import { TranslationService } from "../services/TranslationService";
-import moment from 'moment';
 
 export const BondFormBuilderDetails = ({
   emetteur,
@@ -10,21 +9,24 @@ export const BondFormBuilderDetails = ({
   onIsinChange,
   formData,
   onFormChange,
+  updateFormData,
   triggerSubmit,
   lang,
 }) => {
-  const onTauxRendementDetailsChanged = (e) => {
-    var coupon = e.target.name == "coupon" ? e.target.value : formData.coupon;
-    var maturiteResiduel = e.target.name == "maturiteResiduel" ? e.target.value : formData.maturiteResiduel;
-    if (formData.coupon === 0) return 0;
-    formData.tauxRendement =
-      (coupon / 100) /
-      (1 - (coupon / 100) * (maturiteResiduel / 360)) *
-      100;
+  const onCouponChanged = (e) => {
     onFormChange(e);
+
+    var coupon = e.target.name == "coupon" ? e.target.value : formData.coupon;
+    if(!formData.maturiteResiduel) return;
+    if (formData.coupon === 0) return 0;
+    console.log(formData.maturiteResiduel);
+    let newTauxRendement = (coupon / 100) / (1 - (coupon / 100) * (formData.maturiteResiduel / 360)) * 100;
+    updateFormData({tauxRendement: newTauxRendement})
   };
 
   const onDatesChanged = (e) => {
+    onFormChange(e);
+
     var dateValeur = e.target.name == "dateValeur" ? e.target.value : formData.dateValeur;
     var dateEcheance = e.target.name == "dateEcheance" ? e.target.value : formData.dateEcheance;
 
@@ -38,9 +40,10 @@ export const BondFormBuilderDetails = ({
     const days = Math.floor(
       (dateEcheanceD - dateValeurD) / (1000 * 60 * 60 * 24)
     );
-    formData.maturiteResiduel = days + 1;
 
-    onFormChange(e);
+    let newMaturiteResiduel = days + 1;
+    updateFormData({maturiteResiduel: newMaturiteResiduel})
+    onCouponChanged(e);
   };
 
   var details = [
@@ -88,33 +91,17 @@ export const BondFormBuilderDetails = ({
       step: "0.01",
       name: "coupon",
       value: formData.coupon,
-      onChange: onTauxRendementDetailsChanged,
-      onBlur: triggerSubmit,
-    },
-    {
-      label: TranslationService.translate("maturite_residuel", lang),
-      name: "maturiteResiduel",
-      value: formData.maturiteResiduel,
-      onChange: onFormChange,
+      onChange: onCouponChanged,
       onBlur: triggerSubmit,
     },
     {
       label: TranslationService.translate("valeur_nominale", lang),
       type: "number",
-      step: "0.01",
       name: "valeurNominale",
       value: formData.valeurNominale,
       onChange: onFormChange,
       onBlur: triggerSubmit,
-    },
-    {
-      label: TranslationService.translate("taux_rendement", lang),
-      type: "number",
-      step: "0.01",
-      name: "tauxRendement",
-      value: formData.tauxRendement,
-      onChange: onFormChange,
-      onBlur: triggerSubmit,
+      formatNumber: true,
     },
     {
       label: TranslationService.translate("montant_placement", lang),
@@ -123,6 +110,7 @@ export const BondFormBuilderDetails = ({
       value: formData.montantAPlacer,
       onChange: onFormChange,
       onBlur: triggerSubmit,
+      formatNumber: true,
     },
   ];
 

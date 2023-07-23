@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {getEmetteurs, 
-  getISINs, 
-  getMaturiteJours} from "../services/SimulatorService";
+import {getEmetteurs, getISINs} from "../services/SimulatorService";
 import { TranslationService } from "../services/TranslationService";
 
 import { FormBuilder } from "./FormBuilder"
@@ -35,7 +33,8 @@ const BondSimulatorInput = ({formData, updateFormData, lang}) => {
 
   const onFormChange = (event) => {
     const { name, value } = event.target;
-    updateFormData({ ...formData, [name]: value });
+    let newValue = {[name]: value };
+    updateFormData(newValue);
   };
 
   const formDetails = BondFormBuilderDetails ({
@@ -47,6 +46,7 @@ const BondSimulatorInput = ({formData, updateFormData, lang}) => {
     onIsinChange,
     formData,
     onFormChange,
+    updateFormData,
     lang
   })
 

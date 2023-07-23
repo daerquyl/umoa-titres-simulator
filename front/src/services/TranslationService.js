@@ -14,6 +14,9 @@ export const TranslationService = {
             en: "Features of your investment (BT) - base convention: Exact/360"
         },
 
+        titre_ot: { fr: "OAT", en: "OAT" },
+        titre_bons: { fr: "BONS", en: "BONDS" },
+
         emetteur: {fr: "Emetteur", en: "Issuer"},
         isin: {fr: "ISIN", en: "ISIN"},
         mode_amortissement: {fr: "Mode Amortissement", en: "Amortization Type"},
@@ -37,6 +40,7 @@ export const TranslationService = {
         prix_placement_voulu: {fr: "Prix souhaité pour le placement%", en: "Desired price for the investment"},
         montant_net: {fr: "Le montant net", en: "Net amount"},
         interet_couru: {fr: "Dont interêts couru", en: "Including accrued interest"},
+        interets: {fr: "Interêts", en: "Interest"},
 
         titre_tableau_amortissement: {fr: "Tableau d'amortissement", en: "Amortization plan"},
         afficher_tableau_amortissement: {fr: "Afficher le tableau d'amortissement", en: "Show amortization plan"},

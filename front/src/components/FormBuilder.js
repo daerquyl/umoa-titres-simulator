@@ -1,4 +1,5 @@
 import React from "react";
+import { NumericFormat } from 'react-number-format';
 
 export const FormBuilder = {
   buildSelect: (field) => (
@@ -33,7 +34,30 @@ export const FormBuilder = {
     />
   ),
 
-  build: (field) => (field.options ? FormBuilder.buildSelect(field) : FormBuilder.buildInput(field)),
+  buildNumberFormat: (field) => (
+    <NumericFormat
+      className="form-control form-control-sm"
+      thousandSeparator=" "
+      decimalSeparator="."
+      decimalScale={0}
+      fixedDecimalScale={true}
+      allowNegative={false}
+      prefix=""
+      suffix=" CFA"
+      value={field.value}
+      onValueChange={values => {
+        field.onChange({ target: { value: values.value, name: field.name } });
+       }}
+      onBlur={field.onBlur}
+      name={field.name}
+    />
+  ),
+
+  build: (field) => (field.options 
+    ? FormBuilder.buildSelect(field) 
+    : field.formatNumber 
+      ? FormBuilder.buildNumberFormat(field)
+      : FormBuilder.buildInput(field)),
 
   buildFieldGroup: (field, index) => (
     <div className="form-group row" key={`${field.name}-${index}`}>
