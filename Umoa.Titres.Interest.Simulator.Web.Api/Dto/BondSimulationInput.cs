@@ -4,7 +4,6 @@ using Umoa.Titres.Interest.Simulator.Core;
 namespace Umoa.Titres.Interest.Simulator.Web.Api.Dto;
 
 public record BondSimulationInput(
-    int MaturiteEnJours,
     DateTime DateValeur,
     DateTime DateEcheance,
     double Coupon,

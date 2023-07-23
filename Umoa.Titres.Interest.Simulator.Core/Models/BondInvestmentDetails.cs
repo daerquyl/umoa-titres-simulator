@@ -6,7 +6,6 @@ public record BondInvestmentDetails(
     DateTime DateValeur,
     DateTime DateEcheance,
     double Coupon,
-    int MaturiteEnJours,
     int MaturiteResiduel,
     double ValeurNominale,
     double TauxRendement,

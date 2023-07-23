@@ -27,4 +27,3 @@ public class BondSimulator : IBondSimulator
         return details.MontantAPlacer * (1 - (details.Coupon / 100) * details.DateValeur.YearFraction(details.DateEcheance.AddDays(1), 2));
     }
 }
-

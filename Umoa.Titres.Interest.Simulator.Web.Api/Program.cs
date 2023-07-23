@@ -116,7 +116,6 @@ app.MapPost("/simulator/run/bonds", ([FromBody] BondSimulationInput details, ISi
         details.DateValeur,
         details.DateEcheance,
         details.Coupon,
-        details.MaturiteEnJours,
         details.MaturiteResiduel,
         details.ValeurNominale,
         details.TauxRendement,
