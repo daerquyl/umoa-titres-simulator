@@ -78,7 +78,10 @@ const OATSimulatorResult = ({formData, formStateIsValid, updateFormData, results
           {calculatePrice &&
             <tr>
               <td className="w-60 fw-bold bg-light">{TranslationService.translate("prix_placement", lang)}:</td>
-              <td className="w-30 bg-light"><span className="badge bg-secondary"><RateFormat value={results.prix} /></span></td>
+              <td className="w-30 bg-light"><span className="badge bg-secondary">
+                <RateFormat value={results.prix} />
+                (<XofFormat value={results.prix * 100} />)
+              </span></td>
             </tr>
           }
           <tr>
