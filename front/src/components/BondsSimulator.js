@@ -10,7 +10,7 @@ const BondsSimulator = ({lang}) => {
       dateEcheance: "",
       coupon: "",
       maturiteResiduel: "",
-      valeurNominale : "",
+      valeurNominale : "1000000",
       tauxRendement: "",
       montantAPlacer: "",
   })

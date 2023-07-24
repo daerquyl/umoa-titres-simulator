@@ -51,6 +51,7 @@ export const FormBuilder = {
        }}
       onBlur={field.onBlur}
       name={field.name}
+      disabled={field.disabled}
     />
   ),
 

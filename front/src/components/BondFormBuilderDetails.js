@@ -13,12 +13,14 @@ export const BondFormBuilderDetails = ({
   triggerSubmit,
   lang,
 }) => {
-  const onCouponChanged = (e) => {
+  const onCouponChanged = (e, maturiteResiduel) => {
     onFormChange(e);
 
-    var coupon = e.target.name == "coupon" ? e.target.value : formData.coupon;
-    if(!formData.maturiteResiduel) return;
-    if (formData.coupon === 0) return 0;
+    let coupon = e.target.name == "coupon" ? e.target.value : formData.coupon;
+    let maturite = maturiteResiduel ? maturiteResiduel : formData.maturiteResiduel;
+
+    if(!maturite) return;
+    if(!coupon) return;
 
     let newTauxRendement = (coupon / 100) / (1 - (coupon / 100) * (formData.maturiteResiduel / 360)) * 100;
     updateFormData({tauxRendement: newTauxRendement})
@@ -41,7 +43,7 @@ export const BondFormBuilderDetails = ({
 
     let newMaturiteResiduel = days + 1;
     updateFormData({maturiteResiduel: newMaturiteResiduel})
-    onCouponChanged(e);
+    onCouponChanged(e, newMaturiteResiduel);
   };
 
   var details = [
@@ -100,6 +102,7 @@ export const BondFormBuilderDetails = ({
       onChange: onFormChange,
       onBlur: triggerSubmit,
       formatNumber: true,
+      disabled: true,
     },
     {
       label: TranslationService.translate("montant_placement", lang),

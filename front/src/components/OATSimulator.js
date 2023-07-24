@@ -13,7 +13,7 @@ const OATSimulator = ({lang}) => {
       coupon: "",
       maturiteEnAnnes: "",
       dateEcheance: "",
-      valeurNominale : "",
+      valeurNominale : "10000",
       montantAPlacer: "",
       prix: "",
       tauxRendement: "",
