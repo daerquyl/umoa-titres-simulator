@@ -12,7 +12,7 @@ public interface ISimulatorController
 {
     public SimulationResults Run(OATInvestmentDetails details);
     public OATAmortizationTable GetAmortizationTable(OATInvestmentDetails details);
-    object Run(BondInvestmentDetails investmentDetails);
+    BondSimulationResults Run(BondInvestmentDetails investmentDetails);
 }
 
 
@@ -48,7 +48,7 @@ public class SimulatorController : ISimulatorController
         montantNet = details.MontantAPlacer * (prix + couponCouru) / 100;
         interets = details.MontantAPlacer * couponCouru / 100;
 
-        return new OATSimulationResults(couponCouru, prix, rendement, Utils.Round(montantNet).ToCFA(), Utils.Round(interets).ToCFA());
+        return new OATSimulationResults(couponCouru, prix, rendement, Utils.Round(montantNet), Utils.Round(interets));
 
     }
 
@@ -57,12 +57,12 @@ public class SimulatorController : ISimulatorController
         return oatSimulator.CalculAmortissement(details);
     }
 
-    public object Run(BondInvestmentDetails investmentDetails)
+    public BondSimulationResults Run(BondInvestmentDetails investmentDetails)
     {
         var montantNet = bondSimulator.CalculMontantNet(investmentDetails);
         var interets = bondSimulator.CalculInterets(investmentDetails);
 
-        return new BondSimulationResults(montantNet: Utils.Round(montantNet).ToCFA(), interets: Utils.Round(interets).ToCFA());
+        return new BondSimulationResults(montantNet: Utils.Round(montantNet), interets: Utils.Round(interets));
     }
 }
 

@@ -19,7 +19,7 @@ export const BondFormBuilderDetails = ({
     var coupon = e.target.name == "coupon" ? e.target.value : formData.coupon;
     if(!formData.maturiteResiduel) return;
     if (formData.coupon === 0) return 0;
-    console.log(formData.maturiteResiduel);
+
     let newTauxRendement = (coupon / 100) / (1 - (coupon / 100) * (formData.maturiteResiduel / 360)) * 100;
     updateFormData({tauxRendement: newTauxRendement})
   };
@@ -30,12 +30,10 @@ export const BondFormBuilderDetails = ({
     var dateValeur = e.target.name == "dateValeur" ? e.target.value : formData.dateValeur;
     var dateEcheance = e.target.name == "dateEcheance" ? e.target.value : formData.dateEcheance;
 
+    if (!dateValeur || !dateEcheance) return
+
     const dateValeurD = new Date(dateValeur) ;
     const dateEcheanceD = new Date(dateEcheance);
-
-    if (!dateValeurD || !dateEcheanceD) {
-      return 0;
-    }
 
     const days = Math.floor(
       (dateEcheanceD - dateValeurD) / (1000 * 60 * 60 * 24)

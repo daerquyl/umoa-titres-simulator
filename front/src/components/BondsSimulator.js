@@ -49,6 +49,7 @@ const BondsSimulator = ({lang}) => {
   const submitForm = () => {
     const launchSimulation = async () => {
       let resultats = await getResultBonds(formData);
+      console.log(resultats);
       setResults(resultats);
     }
 

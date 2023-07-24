@@ -5,6 +5,7 @@ import { getAmortizationTable } from "../services/SimulatorService";
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import XofFormat from "./XOFFormat";
 
 const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved, data}) => {
   const [afficherTableauAmortissement, setAfficherTableauAmortissement] = useState(false);
@@ -27,7 +28,14 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
 
   const shouldFetchAmortizationTable = () => afficherTableauAmortissement && newResultRetrieved;
 
-  const lineProperties = ["fraction", "date", "encours", "interets", "amortissement", "service"];
+  const lineProperties = [
+    {name: "fraction"}, 
+    {name: "date"}, 
+    {name: "encours", cfa: true}, 
+    {name: "interets", cfa: true}, 
+    {name: "amortissement", cfa: true}, 
+    {name: "service", cfa: true}
+  ];
 
   return (
     <div className="mb-2">
@@ -60,7 +68,7 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
               <tbody>
                 {amortizationTable && amortizationTable.map((line, index) => 
                     <tr key={index}>
-                      {lineProperties.map(p => <td>{line[p]}</td>)}
+                      {lineProperties.map(p => <td>{ p.cfa ? <XofFormat value={p} printCurrency={false} /> : line[p]}</td>)}
                     </tr>
                 )}
               </tbody>

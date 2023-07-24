@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { TranslationService } from "../services/TranslationService";
+import RateFormat from "./RateFormat";
+import XofFormat from "./XOFFormat";
 
 
 const OATSimulatorResult = ({formData, formStateIsValid, updateFormData, results, triggerSubmit, lang}) => {
@@ -65,27 +67,27 @@ const OATSimulatorResult = ({formData, formStateIsValid, updateFormData, results
         <tbody>
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("coupon_couru", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary">{results.couponCouru}</span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><RateFormat value={results.couponCouru} /></span></td>
           </tr>
           {!calculatePrice &&
             <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("taux_rendement", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary">{results.tauxRendement} %</span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><RateFormat value={results.tauxRendement} /></span></td>
           </tr>
           }
           {calculatePrice &&
             <tr>
               <td className="w-60 fw-bold bg-light">{TranslationService.translate("prix_placement", lang)}:</td>
-              <td className="w-30 bg-light"><span className="badge bg-secondary">{results.prix}</span></td>
+              <td className="w-30 bg-light"><span className="badge bg-secondary"><RateFormat value={results.prix} /></span></td>
             </tr>
           }
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("montant_net", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary">FCFA {results.montantNet}</span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><XofFormat value={results.montantNet} /></span></td>
           </tr>
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("interet_couru", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary">FCFA {results.interets}</span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><XofFormat value={results.interets} /></span></td>
           </tr>
         </tbody>
       </table>

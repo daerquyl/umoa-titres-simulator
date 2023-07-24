@@ -5,9 +5,9 @@ public class AmortizationLineDto
 {
     public double Fraction { get; set; }
     public string Date { get; set; }
-    public string Encours { get; set; }
-    public string Interets { get; set; }
-    public string Amortissement { get; set; }
-    public string Service { get; set; }
+    public double Encours { get; set; }
+    public double Interets { get; set; }
+    public double Amortissement { get; set; }
+    public double Service { get; set; }
 }
 

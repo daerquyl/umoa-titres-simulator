@@ -10,6 +10,11 @@ namespace Umoa.Titres.Interest.Simulator.Web.Api
 
             return lower + 0.5 > value ? lower : upper;
         }
+
+        public static double RoundRate(double value, int decimals=4)
+        {
+            return Math.Round(value, decimals);
+        }
     }
 }
 
