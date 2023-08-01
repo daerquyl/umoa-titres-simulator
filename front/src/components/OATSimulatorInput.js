@@ -21,7 +21,7 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
   const [periodicites, setPeriodicites] = useState([]);
   const [maturiteEnAnnes, setMaturiteEnAnnes] = useState([]);
 
-  const [showDiffere, setShowDiffere] = useState(false);
+  const [isInFine, setIsInFine] = useState(true);
  
   useEffect(() => {
     const fetchData = async () => {
@@ -43,16 +43,25 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
   const onIsinChange = async (event) => {
     const newIsin = event.target.value;
     setIsin(newIsin);
-    
+
     let details = await getOATSimulationDetails(newIsin)
     updateFormData(details);
 
-    onModeAmortissementChanged({target: { value: details.modeAmortissement, name: "modeAmortissement" }})
+    setIsInFine(details.modeAmortissement == "IF");
   };
 
   const onModeAmortissementChanged = (e) => {
-      onFormChange(e);
-      setShowDiffere(e.target.value != "IF");
+    var isInFine = e.target.value == "IF";
+
+    var updates = {
+      modeAmortissement: e.target.value,
+      differe: isInFine ? "0" : formData.differe
+    }
+
+    updateFormData(updates);
+    setIsInFine(isInFine);
+
+    triggerSubmit();
   }
 
   const onFormChange = (event) => {
@@ -68,7 +77,7 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
     isins,
     onIsinChange,
     onModeAmortissementChanged,
-    showDiffere,
+    isInFine,
     modeAmortissements,
     periodicites,
     maturiteEnAnnes,

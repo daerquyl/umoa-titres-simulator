@@ -31,13 +31,13 @@ public class PrixSimulator : IPrixSimulator
             details.ValeurNominale / 100,
             details.MaturiteReelle,
             details.Coupon,
-            Math.Round(details.TauxRendement.Value / 100, 4),
+            Math.Round(details.TauxRendement.Value / 100, 5),
             details.Periodicite,
             details.DateValeur,
             details.DateEcheance,
             details.Differe);
 
-        return Math.Round(prix_per_cent * 100, 2);
+        return Math.Round(prix_per_cent * 100, 5);
     }
 
     private double CalculPrix(AmortizationType modeAmortissement, double valeurNominale, int dureeEnAnnees, double coupon, double rendement, InvestmentPeriodicityType periodicite, DateTime dateValeur, DateTime dateEcheance, int differe)

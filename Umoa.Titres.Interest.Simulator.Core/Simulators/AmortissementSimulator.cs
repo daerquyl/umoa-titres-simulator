@@ -87,13 +87,13 @@ public class AmortissementSimulator : IAmortissementSimulator
                 {
                     var encours = montantAPlacer;
                     var amortissement = 0;
-                    table.AddLine(0, date, encours, interet, amortissement);
+                    table.AddLine(fraction, date, encours, interet, amortissement);
                 }
                 else
                 {
                     var encours = 0;
                     var amortissement = montantAPlacer;
-                    table.AddLine(0, date, encours, interet, amortissement);
+                    table.AddLine(fraction, date, encours, interet, amortissement);
                 }
                 cursorEcheancier++;
             }

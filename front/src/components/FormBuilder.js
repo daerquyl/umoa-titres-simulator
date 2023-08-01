@@ -9,6 +9,7 @@ export const FormBuilder = {
       value={field.value}
       onChange={field.onChange}
       onBlur={field.onBlur}
+      disabled={field.disabled}
     >
       <option value="">-</option>
       {field.options.getList().map(option => (

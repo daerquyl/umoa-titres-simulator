@@ -68,7 +68,7 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
               <tbody>
                 {amortizationTable && amortizationTable.map((line, index) => 
                     <tr key={index}>
-                      {lineProperties.map(p => <td>{ p.cfa ? <XofFormat value={p} printCurrency={false} /> : line[p]}</td>)}
+                      {lineProperties.map(p => <td>{ p.cfa ? <XofFormat value={line[p.name]} printCurrency={false} /> : line[p.name]}</td>)}
                     </tr>
                 )}
               </tbody>

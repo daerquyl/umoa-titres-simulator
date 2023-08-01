@@ -28,6 +28,18 @@ public class IsinsService : IIsinsService
             .SelectMany(e => e.Isins)
             .SingleOrDefault(i => i.Isin == code);
 
+        return ReplaceACWithACD0Differe(isin);
+    }
+
+    private IsinDetails ReplaceACWithACD0Differe(IsinDetails? isin)
+    {
+        if (isin is null) return null;
+
+        if(isin.ModeAmortissement == "AC")
+        {
+            isin.ModeAmortissement = "ACD";
+        }
+
         return isin;
     }
 }

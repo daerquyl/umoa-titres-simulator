@@ -24,7 +24,7 @@ export const getOATSimulationDetails = async (isin) => {
 }
 
 export const getModeAmortissements = async () => {
-    return [{code:"IF", label:"IN FINE"}, {code: "AC", label:"Constant"}, {code: "ACD", label:"Constant Différé"}]
+    return [{code:"IF", label:"IN FINE"}/*, {code: "AC", label:"Constant"}*/, {code: "ACD", label:"Constant Différé"}]
 }
 
 export const getPeriodicites = async () => {

@@ -44,7 +44,7 @@ public class SimulatorController : ISimulatorController
             prix = details.Prix.Value;
         }
 
-        couponCouru = oatSimulator.CalculCouponCouru(details.DateEcheance, details.DateValeur, details.MaturiteEnAnnes, details.Coupon, details.Periodicite);
+        couponCouru = oatSimulator.CalculCouponCouru(details.DateEcheance, details.DateValeur, details.MaturiteReelle, details.Coupon, details.Periodicite);
         montantNet = details.MontantAPlacer * (prix + couponCouru) / 100;
         interets = details.MontantAPlacer * couponCouru / 100;
 

@@ -17,7 +17,7 @@ const OATSimulator = ({lang}) => {
       montantAPlacer: "",
       prix: "",
       tauxRendement: "",
-      differe: "",
+      differe: "0",
   })
   const [results, setResults] = useState({
     prix: "",
@@ -46,12 +46,12 @@ const OATSimulator = ({lang}) => {
     formData.maturiteEnAnnes && 
     formData.dateEcheance && 
     formData.valeurNominale && 
-    formData.montantAPlacer
-    && ((formData.modeAmortissement == 'ACD' && formData.differe) || (formData.modeAmortissement != 'ACD'))
+    formData.montantAPlacer &&
+    (formData.prix || formData.tauxRendement)
   }
 
   const canSubmit = () => {
-    return triggerSubmit && isFormValid() && (formData.prix || formData.tauxRendement);
+    return triggerSubmit && isFormValid() ;
   }
 
   const forgeAmortizationRequestData = () => {
@@ -74,6 +74,7 @@ const OATSimulator = ({lang}) => {
 
   const updateFormData = (updates) => {
     var newFormData = {...formData, ...updates};
+
     setFormData(newFormData);
     setFormStateIsValid(isFormValid(newFormData));
   }
@@ -87,13 +88,7 @@ const OATSimulator = ({lang}) => {
       triggerSubmit={doTriggerSubmit}
       lang={lang}/>
 
-      <OATSimulatorResult formData={formData} 
-        formStateIsValid={formStateIsValid} 
-        updateFormData={updateFormData} 
-        results={results} 
-        triggerSubmit={doTriggerSubmit}
-        lang={lang}
-        />
+      <OATSimulatorResult results={results} lang={lang} />
 
       <OATAmortizationTable lang={lang} 
         newResultRetrieved={newResultRetrieved}

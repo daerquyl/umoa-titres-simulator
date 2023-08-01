@@ -1,6 +1,8 @@
 import React from 'react';
 
 const numberToXOF = (number) => {
+  if(number == 0) return 0;
+
   if (!number) return;
 
   // Format the number to have two decimal places and use a space as the thousands separator

@@ -1,9 +1,12 @@
 import React from 'react';
 
 const format = (number) => {
+  if(number == 0) return 0;
+  
   if (!number) return;
 
-  return number.toFixed(4);
+  let formatted = number.toFixed(4);
+  return formatted;
 };
 
 const RateFormat = ({value}) => <span>{format(value)} %</span>;
