@@ -50,7 +50,6 @@ const BondsSimulator = ({lang}) => {
   const submitForm = () => {
     const launchSimulation = async () => {
       let resultats = await getResultBonds(formData);
-      console.log(resultats);
       setResults(resultats);
     }
 
@@ -60,7 +59,7 @@ const BondsSimulator = ({lang}) => {
   return (
     <div>
       <hr />
-      <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_bonds")}</h5>
+      <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_bonds", lang)}</h5>
       <hr />
       <BondSimulatorInput formData={formData} updateFormData={updateFormData} lang={lang}/>
       <BondSimulatorResult results={results} formData={formData} lang={lang}/>

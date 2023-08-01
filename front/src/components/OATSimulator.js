@@ -85,7 +85,7 @@ const OATSimulator = ({lang}) => {
   return (
     <div>
       <hr />
-        <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_ot")}</h5>
+        <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_ot", lang)}</h5>
       <hr />
       <OATSimulatorInput formData={formData} 
       updateFormData={updateFormData} 
