@@ -44,9 +44,10 @@ export const TranslationService = {
 
         titre_tableau_amortissement: {fr: "Tableau d'amortissement", en: "Amortization plan"},
         afficher_tableau_amortissement: {fr: "Afficher le tableau d'amortissement", en: "Show amortization plan"},
-        ta_fraction: {fr: "Fraction Année", en: "Fraction"},
+        ta_fraction: {fr: "Fraction", en: "Fraction"},
         ta_date: {fr: "Date", en: "Date"},
-        ta_encours: {fr: "Encours(FCFA)", en: "Outstanding(FCFA)"},
+        ta_encours_debut: {fr: "Encours Debut(FCFA)", en: "Outstanding Before(FCFA)"},
+        ta_encours_fin: {fr: "Encours Fin(FCFA)", en: "Outstanding After(FCFA)"},
         ta_interet: {fr: "Intérêts(FCFA)", en: "Interest(FCFA)"},
         ta_amortissement: {fr: "Amortissement(FCFA)", en: "Amortization(FCFA)"},
         ta_service: {fr: "Service(FCFA)", en: "Service(FCFA)"},

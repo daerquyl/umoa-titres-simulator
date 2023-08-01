@@ -48,5 +48,8 @@ export const getResultBonds = async (data) => {
 }
 
 export const getAmortizationTable = async (data) => {
-    return await postData(endpoints.getAmortizationTable, data);
+    let results = await postData(endpoints.getAmortizationTable, data);
+    results.forEach(l => l.fraction = Number(l.fraction.toFixed(2)))
+    
+    return results;
 }

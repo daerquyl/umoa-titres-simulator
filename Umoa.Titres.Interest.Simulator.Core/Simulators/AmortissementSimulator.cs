@@ -46,7 +46,7 @@ public class AmortissementSimulator : IAmortissementSimulator
 
     private OATAmortizationTable CalculAmortissementIF(double coupon, DateTime dateValeur, DateTime dateEcheance, double montantAPlacer, InvestmentPeriodicityType periodicite, int maturiteReelle)
     {
-        OATAmortizationTable table = new();
+        OATAmortizationTable table = new(montantAPlacer);
 
         int factor = periodicite switch
         {
@@ -79,21 +79,20 @@ public class AmortissementSimulator : IAmortissementSimulator
                 var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
 
                 var date = periodeCourante;
-                var interet = montantAPlacer * coupon * periodePrecedente.YearFraction(periodeCourante);
+                var multiplicator = periodicite == InvestmentPeriodicityType.A ? periodePrecedente.YearFraction(periodeCourante) : 1.0 / factor;
+                var interet = montantAPlacer * coupon * multiplicator;
                 var fraction = cursorEcheancier == 0
                     ? dateValeur.YearFraction(date)
                     : table.Lines[cursorEcheancier - 1].Fraction + table.Lines[cursorEcheancier - 1].Date.YearFraction(date);
                 if (iteration != duree)
                 {
-                    var encours = montantAPlacer;
                     var amortissement = 0;
-                    table.AddLine(fraction, date, encours, interet, amortissement);
+                    table.AddLine(fraction, date, interet, amortissement);
                 }
                 else
                 {
-                    var encours = 0;
                     var amortissement = montantAPlacer;
-                    table.AddLine(fraction, date, encours, interet, amortissement);
+                    table.AddLine(fraction, date, interet, amortissement);
                 }
                 cursorEcheancier++;
             }
@@ -103,7 +102,7 @@ public class AmortissementSimulator : IAmortissementSimulator
 
     private OATAmortizationTable CalculAmortissementAC(double coupon, DateTime dateValeur, DateTime dateEcheance, double montantAPlacer, InvestmentPeriodicityType periodicite, int maturiteReelle, double prix)
     {
-        OATAmortizationTable table = new();
+        OATAmortizationTable table = new(montantAPlacer);
 
         int factor = periodicite switch
         {
@@ -149,7 +148,7 @@ public class AmortissementSimulator : IAmortissementSimulator
                     var periodeMultiplicator = periodicite == InvestmentPeriodicityType.A ? (cursorPeriode - 1) : parralleCursorPeriod;
                     var interet = (montantAPlacer - (montantAPlacer / annRest) * periodeMultiplicator) * coupon / factor;
                     var amortissement = 0;
-                    table.AddLine(fraction, date, encours, interet, amortissement);
+                    table.AddLine(fraction, date, interet, amortissement);
                     cursorEcheancier++;
                 }
             }
@@ -157,11 +156,11 @@ public class AmortissementSimulator : IAmortissementSimulator
             {
                 if (dateValeur < periodeCourante)
                 {
-                    var periodeMultiplicator = periodicite == InvestmentPeriodicityType.A ? (cursorPeriode - 1) : parralleCursorPeriod;
-                    var encours = montantAPlacer - (montantAPlacer / annRest) * periodeMultiplicator;
+                    var periodeMultiplicator = periodicite == InvestmentPeriodicityType.A ? cursorPeriode : parralleCursorPeriod;
+                    //var encours = montantAPlacer - (montantAPlacer / annRest) * periodeMultiplicator;
 
-                    table.Lines[cursorEcheancier - 1].UpdateEncours(encours);
-                    table.Lines[cursorEcheancier - 1].UpdateAmortissement(montantAPlacer / annRest);
+                    //table.Lines[cursorEcheancier - 1].UpdateEncoursDebut(encours);
+                    //table.Lines[cursorEcheancier - 1].UpdateAmortissement(montantAPlacer / annRest);
 
                     parralleCursorPeriod++;
                 }
@@ -173,7 +172,7 @@ public class AmortissementSimulator : IAmortissementSimulator
 
     private OATAmortizationTable CalculAmortissementACD(double coupon, DateTime dateValeur, DateTime dateEcheance, double montantAPlacer, InvestmentPeriodicityType periodicite, int maturiteReelle, double prix, int differe)
     {
-        OATAmortizationTable table = new();
+        OATAmortizationTable table = new(montantAPlacer);
 
         int factor = periodicite switch
         {
@@ -231,18 +230,18 @@ public class AmortissementSimulator : IAmortissementSimulator
                         ? dateValeur.YearFraction(date)
                         : table.Lines[tableCursor - 1].Fraction + table.Lines[tableCursor - 1].Date.YearFraction(date);
 
-                    var encours = tableCursor == 0 && annRest < (duree - differe)
-                        ? (montantAPlacer * annRest) / (duree - differe)
-                        : montantAPlacer;
-                    if (tableCursor != 0)
-                    {
-                        encours = table.Lines[tableCursor - 1].Encours;
-                    }
+                    //var encours = tableCursor == 0 && annRest < (duree - differe)
+                    //    ? (montantAPlacer * annRest) / (duree - differe)
+                    //    : montantAPlacer;
+                    //if (tableCursor != 0)
+                    //{
+                    //    encours = table.Lines[tableCursor - 1].EncoursDebut;
+                    //}
 
                     var multiplicator = periodicite == InvestmentPeriodicityType.A ? periodePrecedente.YearFraction(periodeCourante) : 1.0 / factor;
                     var interet = montantAPlacer * coupon * multiplicator;
                     var amortissement = 0;
-                    table.AddLine(fraction, date, encours, interet, amortissement);
+                    table.AddLine(fraction, date, interet, amortissement);
                     tableCursor++;
                 }
             }
@@ -254,14 +253,14 @@ public class AmortissementSimulator : IAmortissementSimulator
                     {
                         table.Lines[tableCursor - 1].UpdateAmortissement(montantAPlacer / (duree - differe));
 
-                        var encours = tableCursor == 0 && annRest < (duree - differe)
-                            ? (montantAPlacer * annRest) / (duree - differe)
-                            : montantAPlacer;
-                        if (tableCursor != 0)
-                        {
-                            encours = table.Lines[tableCursor - 1].Encours - table.Lines[tableCursor - 1].Amortissement;
-                        }
-                        table.Lines[tableCursor - 1].UpdateEncours(encours);
+                        //var encours = tableCursor == 0 && annRest < (duree - differe)
+                        //    ? (montantAPlacer * annRest) / (duree - differe)
+                        //    : montantAPlacer;
+                        //if (tableCursor != 0)
+                        //{
+                        //    encours = table.Lines[tableCursor - 1].EncoursDebut - table.Lines[tableCursor - 1].Amortissement;
+                        //}
+                        //table.Lines[tableCursor - 1].UpdateEncoursDebut(encours);
                     }
                 }
                 else
@@ -279,18 +278,18 @@ public class AmortissementSimulator : IAmortissementSimulator
                             ? dateValeur.YearFraction(date)
                             : table.Lines[tableCursor - 1].Fraction + table.Lines[tableCursor - 1].Date.YearFraction(date);
 
-                        var encours = tableCursor == 0 && annRest < (duree - differe)
-                            ? (montantAPlacer * annRest) / (duree - differe)
-                            : montantAPlacer;
-                        if (tableCursor != 0)
-                        {
-                            encours = table.Lines[tableCursor - 1].Encours;
-                        }
+                        //var encours = tableCursor == 0 && annRest < (duree - differe)
+                        //    ? (montantAPlacer * annRest) / (duree - differe)
+                        //    : montantAPlacer;
+                        //if (tableCursor != 0)
+                        //{
+                        //    encours = table.Lines[tableCursor - 1].EncoursDebut;
+                        //}
 
                         var multiplicator = periodicite == InvestmentPeriodicityType.A ? parallelPeriodePrecedente.YearFraction(parallelPeriodeCourante) : 1.0 / factor;
                         var interet = calculateValue2(parrallelIteration, parallelPeriodePrecedente, parallelPeriodeCourante) * multiplicator;
                         var amortissement = 0;
-                        table.AddLine(fraction, date, encours, interet, amortissement);
+                        table.AddLine(fraction, date, interet, amortissement);
                         tableCursor++;
                     }
                 }

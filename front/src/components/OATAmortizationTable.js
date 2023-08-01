@@ -31,9 +31,10 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
   const lineProperties = [
     {name: "fraction"}, 
     {name: "date"}, 
-    {name: "encours", cfa: true}, 
+    {name: "encoursDebut", cfa: true}, 
     {name: "interets", cfa: true}, 
     {name: "amortissement", cfa: true}, 
+    {name: "encoursFin", cfa: true}, 
     {name: "service", cfa: true}
   ];
 
@@ -56,13 +57,14 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
             <Modal.Title><h5 className="text-primary">{TranslationService.translate("titre_tableau_amortissement", lang)}</h5></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <table className="table table-striped mt-2">
+            <table className="table table-striped mt-2" style={{fontSize: "0.75em"}}>
               <thead>
                 <th>{TranslationService.translate("ta_fraction", lang)}</th>
                 <th>{TranslationService.translate("ta_date", lang)}</th>
-                <th>{TranslationService.translate("ta_encours", lang)}</th>
+                <th>{TranslationService.translate("ta_encours_debut", lang)}</th>
                 <th>{TranslationService.translate("ta_interet", lang)}</th>
                 <th>{TranslationService.translate("ta_amortissement", lang)}</th>
+                <th>{TranslationService.translate("ta_encours_fin", lang)}</th>
                 <th>{TranslationService.translate("ta_service", lang)}</th>
               </thead>
               <tbody>
