@@ -3,7 +3,6 @@ import { TranslationService } from "../services/TranslationService";
 import RateFormat from "./RateFormat";
 import XofFormat from "./XOFFormat";
 
-
 const BondSimulatorResult = ({results, formData, lang}) => {
   return (
     <div className="bg-light">

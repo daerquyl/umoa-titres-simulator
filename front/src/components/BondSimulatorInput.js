@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {getEmetteurs, getISINs} from "../services/SimulatorService";
-import { TranslationService } from "../services/TranslationService";
 
 import { FormBuilder } from "./FormBuilder"
 import { BondFormBuilderDetails } from "./BondFormBuilderDetails";
@@ -53,9 +52,6 @@ const BondSimulatorInput = ({formData, updateFormData, lang}) => {
   return (
     <>
     <div>
-      <hr />
-      <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_bonds")}</h5>
-      <hr />
       {formDetails.map((field, index) => (FormBuilder.buildFieldGroup(field)))}
     </div>
     </>

@@ -15,7 +15,6 @@ const App = () => {
   };
 
   const changeLang = (lang) => {
-    console.log(lang);
     setLang(lang);
   }
 

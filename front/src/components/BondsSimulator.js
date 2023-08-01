@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BondSimulatorInput  from "./BondSimulatorInput";
 import {getResultBonds} from "../services/SimulatorService";
 import BondSimulatorResult from "./BondSimulatorResult";
+import { TranslationService } from "../services/TranslationService";
 
 const BondsSimulator = ({lang}) => {
   // Code pour le simulateur des obligations (Bonds)
@@ -58,6 +59,9 @@ const BondsSimulator = ({lang}) => {
 
   return (
     <div>
+      <hr />
+      <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_bonds")}</h5>
+      <hr />
       <BondSimulatorInput formData={formData} updateFormData={updateFormData} lang={lang}/>
       <BondSimulatorResult results={results} formData={formData} lang={lang}/>
     </div>

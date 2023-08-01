@@ -38,3 +38,4 @@
 **/logs/
 **/*.log
 **/debug.log
+front/src/services/SimulatorApiService.js

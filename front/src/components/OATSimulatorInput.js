@@ -5,7 +5,6 @@ import {getEmetteurs,
   getPeriodicites,
   getMaturites, 
   getOATSimulationDetails} from "../services/SimulatorService";
-import { TranslationService } from "../services/TranslationService";
 
 import { FormBuilder } from "./FormBuilder"
 import { OATFormBuilderInputDetails } from "./OATFormBuilderDetails"
@@ -89,9 +88,6 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
 
   return (
     <div>
-      <hr />
-      <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_ot")}</h5>
-      <hr />
       {formDetails.map((field, index) => (FormBuilder.buildFieldGroup(field)))}
     </div>
   );  

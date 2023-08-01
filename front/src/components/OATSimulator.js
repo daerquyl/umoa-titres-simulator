@@ -3,6 +3,7 @@ import OATAmortizationTable from "./OATAmortizationTable";
 import OATSimulatorResult from "./OATSimulatorResult";
 import OATSimulatorInput from "./OATSimulatorInput";
 import {getResultOATs} from "../services/SimulatorService";
+import { TranslationService } from "../services/TranslationService";
 
 const OATSimulator = ({lang}) => {
   const [formStateIsValid, setFormStateIsValid] = useState(false);
@@ -83,6 +84,9 @@ const OATSimulator = ({lang}) => {
 
   return (
     <div>
+      <hr />
+        <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_ot")}</h5>
+      <hr />
       <OATSimulatorInput formData={formData} 
       updateFormData={updateFormData} 
       triggerSubmit={doTriggerSubmit}
