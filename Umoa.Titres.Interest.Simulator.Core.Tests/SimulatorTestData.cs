@@ -9,7 +9,7 @@ public abstract class SimulatortTestData : IEnumerable<object[]>
         return new object[]{ details,  expectedValue};
     }
 
-    public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();;
+    public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
