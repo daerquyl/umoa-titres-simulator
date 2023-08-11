@@ -30,4 +30,4 @@ jobs:
             context: .
             file: ./Dockerfile
             push: true
-            tags: ${{ secrets.DOCKERHUB_USERNAME }}/umoa-titres-simulator:x86-$(date +%s)
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/umoa-titres-simulator:x86
