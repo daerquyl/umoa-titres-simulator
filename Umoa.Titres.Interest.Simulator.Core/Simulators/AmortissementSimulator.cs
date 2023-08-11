@@ -230,14 +230,6 @@ public class AmortissementSimulator : IAmortissementSimulator
                         ? dateValeur.YearFraction(date)
                         : table.Lines[tableCursor - 1].Fraction + table.Lines[tableCursor - 1].Date.YearFraction(date);
 
-                    //var encours = tableCursor == 0 && annRest < (duree - differe)
-                    //    ? (montantAPlacer * annRest) / (duree - differe)
-                    //    : montantAPlacer;
-                    //if (tableCursor != 0)
-                    //{
-                    //    encours = table.Lines[tableCursor - 1].EncoursDebut;
-                    //}
-
                     var multiplicator = periodicite == InvestmentPeriodicityType.A ? periodePrecedente.YearFraction(periodeCourante) : 1.0 / factor;
                     var interet = montantAPlacer * coupon * multiplicator;
                     var amortissement = 0;
@@ -252,15 +244,6 @@ public class AmortissementSimulator : IAmortissementSimulator
                     if (dateValeur <= periodeCourante)
                     {
                         table.Lines[tableCursor - 1].UpdateAmortissement(montantAPlacer / (duree - differe));
-
-                        //var encours = tableCursor == 0 && annRest < (duree - differe)
-                        //    ? (montantAPlacer * annRest) / (duree - differe)
-                        //    : montantAPlacer;
-                        //if (tableCursor != 0)
-                        //{
-                        //    encours = table.Lines[tableCursor - 1].EncoursDebut - table.Lines[tableCursor - 1].Amortissement;
-                        //}
-                        //table.Lines[tableCursor - 1].UpdateEncoursDebut(encours);
                     }
                 }
                 else
