@@ -56,11 +56,32 @@ export const FormBuilder = {
     />
   ),
 
+  buildPercentFormat: (field) => (
+    <NumericFormat
+      className="form-control form-control-sm"
+      decimalSeparator="."
+      decimalScale={4}
+      fixedDecimalScale={false}
+      allowNegative={false}
+      prefix=""
+      suffix=" %"
+      value={field.value}
+      onValueChange={values => {
+        field.onChange({ target: { value: values.value, name: field.name } });
+       }}
+      onBlur={field.onBlur}
+      name={field.name}
+      disabled={field.disabled}
+    />
+  ),
+
   build: (field) => (field.options 
     ? FormBuilder.buildSelect(field) 
     : field.formatNumber 
       ? FormBuilder.buildNumberFormat(field)
-      : FormBuilder.buildInput(field)),
+      : field.formatPercent 
+        ? FormBuilder.buildPercentFormat(field) 
+        : FormBuilder.buildInput(field)),
 
   buildFieldGroup: (field, index) => (
     <div className="form-group row" key={`${field.name}-${index}`}>

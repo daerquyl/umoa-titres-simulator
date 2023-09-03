@@ -6,9 +6,7 @@ public record BondInvestmentDetails(
     DateTime DateValeur,
     DateTime DateEcheance,
     double Coupon,
-    int MaturiteResiduel,
     double ValeurNominale,
-    double TauxRendement,
     double MontantAPlacer
 )
 {

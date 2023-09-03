@@ -59,8 +59,6 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
 
     updateFormData(updates);
     setIsInFine(isInFine);
-
-    triggerSubmit();
   }
 
   const onFormChange = (event) => {
@@ -82,7 +80,6 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
     maturiteEnAnnes,
     formData,
     onFormChange,
-    triggerSubmit,
     lang
   })
 

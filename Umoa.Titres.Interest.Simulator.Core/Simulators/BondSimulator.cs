@@ -6,8 +6,10 @@ namespace Umoa.Titres.Interest.Simulator.Core.Simulators;
 
 public interface IBondSimulator
 {
+	double CalculRendement(BondInvestmentDetails details);
 	double CalculInterets(BondInvestmentDetails details);
 	double CalculMontantNet(BondInvestmentDetails details);
+    int CalculMaturiteResiduelle(BondInvestmentDetails investmentDetails);
 }
 
 public class BondSimulator : IBondSimulator
@@ -25,5 +27,15 @@ public class BondSimulator : IBondSimulator
     public double CalculMontantNet(BondInvestmentDetails details)
     {
         return details.MontantAPlacer * (1 - (details.Coupon / 100) * details.DateValeur.YearFraction(details.DateEcheance.AddDays(1), 2));
+    }
+
+    public int CalculMaturiteResiduelle(BondInvestmentDetails details)
+    {
+        return details.DateValeur.DaysBetween(details.DateEcheance) + 1;
+    }
+
+    public double CalculRendement(BondInvestmentDetails details)
+    {
+        return (details.Coupon / 100) / (1 - (details.Coupon / 100) * (CalculMaturiteResiduelle(details) / 360)) * 100;
     }
 }

@@ -22,6 +22,6 @@ public record OATSimulationResults : SimulationResults
     }
 }
 
-public record BondSimulationResults(double montantNet, double interets) : SimulationResults
+public record BondSimulationResults(double MontantNet, double Interets, int MaturiteResiduelle, double TauxRendement) : SimulationResults
 { }
 

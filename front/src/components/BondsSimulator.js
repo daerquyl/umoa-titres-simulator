@@ -10,14 +10,14 @@ const BondsSimulator = ({lang}) => {
       dateValeur: "",
       dateEcheance: "",
       coupon: "",
-      maturiteResiduel: "",
       valeurNominale : "1000000",
-      tauxRendement: "",
       montantAPlacer: "",
   })
   const [results, setResults] = useState({
     interets: "",
     montantNet: "",
+    tauxRendement: "",
+    maturiteResiduelle: ""
   });
 
   useEffect(() => {
@@ -31,9 +31,7 @@ const BondsSimulator = ({lang}) => {
     const isValid = formData.dateValeur &&
     formData.dateEcheance && 
     formData.coupon && 
-    formData.maturiteResiduel && 
     formData.valeurNominale && 
-    formData.tauxRendement &&
     formData.montantAPlacer;
 
     return isValid;
@@ -62,7 +60,7 @@ const BondsSimulator = ({lang}) => {
       <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_bonds", lang)}</h5>
       <hr />
       <BondSimulatorInput formData={formData} updateFormData={updateFormData} lang={lang}/>
-      <BondSimulatorResult results={results} formData={formData} lang={lang}/>
+      <BondSimulatorResult results={results} lang={lang}/>
     </div>
   );
 };

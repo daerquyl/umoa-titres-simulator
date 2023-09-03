@@ -45,7 +45,6 @@ const BondSimulatorInput = ({formData, updateFormData, lang}) => {
     onIsinChange,
     formData,
     onFormChange,
-    updateFormData,
     lang
   })
 

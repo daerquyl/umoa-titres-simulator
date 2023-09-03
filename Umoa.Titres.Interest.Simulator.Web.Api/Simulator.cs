@@ -59,10 +59,12 @@ public class SimulatorController : ISimulatorController
 
     public BondSimulationResults Run(BondInvestmentDetails investmentDetails)
     {
+        var maturiteResiduelle = bondSimulator.CalculMaturiteResiduelle(investmentDetails);
+        var rendement = bondSimulator.CalculRendement(investmentDetails);
         var montantNet = bondSimulator.CalculMontantNet(investmentDetails);
         var interets = bondSimulator.CalculInterets(investmentDetails);
 
-        return new BondSimulationResults(montantNet: Utils.Round(montantNet), interets: Utils.Round(interets));
+        return new BondSimulationResults(Utils.Round(montantNet), Utils.Round(interets), maturiteResiduelle, rendement);
     }
 }
 

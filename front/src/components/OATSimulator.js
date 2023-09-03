@@ -6,7 +6,6 @@ import {getResultOATs} from "../services/SimulatorService";
 import { TranslationService } from "../services/TranslationService";
 
 const OATSimulator = ({lang}) => {
-  const [formStateIsValid, setFormStateIsValid] = useState(false);
   const [formData, setFormData] = useState({
       modeAmortissement: "",
       periodicite: "",
@@ -27,7 +26,6 @@ const OATSimulator = ({lang}) => {
     interets: "",
     montantNet: "",
   });
-  const [triggerSubmit, setTriggerSubmit] = useState(false);
   const [newResultRetrieved, setNewResultRetrieved] = useState(false);
   
 
@@ -36,15 +34,13 @@ const OATSimulator = ({lang}) => {
     { 
       submitForm();
     }
-    setTriggerSubmit(false);
-  }, [triggerSubmit])
+  }, [formData])
 
   const isFormValid = () => {
     return formData.modeAmortissement && 
     formData.periodicite && 
     formData.dateValeur && 
     formData.coupon && 
-    formData.maturiteEnAnnes && 
     formData.dateEcheance && 
     formData.valeurNominale && 
     formData.montantAPlacer &&
@@ -52,20 +48,21 @@ const OATSimulator = ({lang}) => {
   }
 
   const canSubmit = () => {
-    return triggerSubmit && isFormValid() ;
+    return isFormValid();
   }
 
   const forgeAmortizationRequestData = () => {
     return {
       ...formData,
-      prix: `${results.prix}`,
-      tauxRendement: `${results.tauxRendement}`
+      prix: `${results.prix}` ?? "",
+      tauxRendement: `${results.tauxRendement}` ?? ""
     }
   }
 
   const submitForm = () => {
     const launchSimulation = async () => {
-      let resultats = await getResultOATs(formData);
+      let details = {...formData, maturiteEnAnnes: 0};
+      let resultats = await getResultOATs(details);
       setResults(resultats);
       setNewResultRetrieved(true);
     }
@@ -74,23 +71,15 @@ const OATSimulator = ({lang}) => {
   }
 
   const updateFormData = (updates) => {
-    var newFormData = {...formData, ...updates};
-
-    setFormData(newFormData);
-    setFormStateIsValid(isFormValid(newFormData));
+    setFormData(prev => ({...prev, ...updates}));
   }
-
-  const doTriggerSubmit = () => setTriggerSubmit(true);
 
   return (
     <div>
       <hr />
         <h5 className="text-center">{TranslationService.translate("titre_caracteristiques_ot", lang)}</h5>
       <hr />
-      <OATSimulatorInput formData={formData} 
-      updateFormData={updateFormData} 
-      triggerSubmit={doTriggerSubmit}
-      lang={lang}/>
+      <OATSimulatorInput formData={formData} updateFormData={updateFormData} lang={lang}/>
 
       <OATSimulatorResult results={results} lang={lang} />
 
