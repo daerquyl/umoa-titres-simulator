@@ -54,15 +54,15 @@ const OATSimulator = ({lang}) => {
   const forgeAmortizationRequestData = () => {
     return {
       ...formData,
-      maturiteEnAnnes: formData.maturiteEnAnnes ?? 0,
-      prix: `${results.prix}` ?? "",
-      tauxRendement: `${results.tauxRendement}` ?? ""
+      maturiteEnAnnes: formData.maturiteEnAnnes || 0,
+      prix: `${results.prix}` || "",
+      tauxRendement: `${results.tauxRendement}` || ""
     }
   }
 
   const submitForm = () => {
     const launchSimulation = async () => {
-      let details = {...formData, maturiteEnAnnes: 0};
+      let details = {...formData, maturiteEnAnnes: formData.maturiteEnAnnes || 0};
       let resultats = await getResultOATs(details);
       setResults(resultats);
       setNewResultRetrieved(true);

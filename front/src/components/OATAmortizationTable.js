@@ -57,6 +57,7 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
             <Modal.Title><h5 className="text-primary">{TranslationService.translate("titre_tableau_amortissement", lang)}</h5></Modal.Title>
           </Modal.Header>
           <Modal.Body>
+          <div class="table-responsive">
             <table className="table table-striped mt-2" style={{fontSize: "0.75em"}}>
               <thead>
                 <th>{TranslationService.translate("ta_fraction", lang)}</th>
@@ -75,6 +76,7 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
                 )}
               </tbody>
             </table>
+          </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={closeModal}>{TranslationService.translate("close_modal", lang)}</Button>

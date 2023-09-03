@@ -42,15 +42,15 @@ export const TranslationService = {
         interet_couru: {fr: "Dont interêts couru", en: "Including accrued interest"},
         interets: {fr: "Interêts", en: "Interest"},
 
-        titre_tableau_amortissement: {fr: "Tableau d'amortissement", en: "Amortization plan"},
+        titre_tableau_amortissement: {fr: "Tableau d'amortissement (FCFA)", en: "Amortization plan"},
         afficher_tableau_amortissement: {fr: "Afficher le tableau d'amortissement", en: "Show amortization plan"},
         ta_fraction: {fr: "Fraction", en: "Fraction"},
         ta_date: {fr: "Date", en: "Date"},
-        ta_encours_debut: {fr: "Encours Debut(FCFA)", en: "Outstanding Before(FCFA)"},
-        ta_encours_fin: {fr: "Encours Fin(FCFA)", en: "Outstanding After(FCFA)"},
-        ta_interet: {fr: "Intérêts(FCFA)", en: "Interest(FCFA)"},
-        ta_amortissement: {fr: "Amortissement(FCFA)", en: "Amortization(FCFA)"},
-        ta_service: {fr: "Service(FCFA)", en: "Service(FCFA)"},
+        ta_encours_debut: {fr: "Encours Debut", en: "Outstanding Before"},
+        ta_encours_fin: {fr: "Encours Fin", en: "Outstanding After"},
+        ta_interet: {fr: "Intérêts", en: "Interest"},
+        ta_amortissement: {fr: "Amortissement", en: "Amortization"},
+        ta_service: {fr: "Service", en: "Service"},
         
 
         taux_pre_compte: {fr: "Taux Pré Compté", en: "Rate Pré Compté"},
