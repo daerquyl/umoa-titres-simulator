@@ -54,6 +54,7 @@ const OATSimulator = ({lang}) => {
   const forgeAmortizationRequestData = () => {
     return {
       ...formData,
+      maturiteEnAnnes: formData.maturiteEnAnnes ?? 0,
       prix: `${results.prix}` ?? "",
       tauxRendement: `${results.tauxRendement}` ?? ""
     }
