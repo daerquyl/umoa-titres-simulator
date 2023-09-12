@@ -99,13 +99,13 @@ app.MapPost("/simulator/run/oat", ([FromBody] OATSimulationInput details, ISimul
         string.IsNullOrEmpty(details.Differe) ? 0 : int.Parse(details.Differe)
     );
 
-    if (!string.IsNullOrEmpty(details.Prix))
+    if (details.Prix != 0)
     {
-        investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.PRIX, double.Parse(details.Prix.Trim(), CultureInfo.InvariantCulture));
+        investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.PRIX, details.Prix);
     }
     else
     {
-        investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.RENDEMENT, double.Parse(details.TauxRendement.Trim(), CultureInfo.InvariantCulture));
+        investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.RENDEMENT, details.TauxRendement);
     }
 
     return simulator.Run(investmentDetails);
@@ -136,8 +136,8 @@ app.MapPost("/simulator/amortization/oat", ([FromBody] OATSimulationInput detail
             string.IsNullOrEmpty(details.Differe) ? 0 : int.Parse(details.Differe)
         );
 
-    investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.PRIX, double.Parse(details.Prix.Trim(), CultureInfo.InvariantCulture));
-    investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.RENDEMENT, double.Parse(details.TauxRendement.Trim(), CultureInfo.InvariantCulture));
+    investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.PRIX, details.Prix);
+    investmentDetails.SetPrixOrRendement(InvestmentPrixOrRendementType.RENDEMENT, details.TauxRendement);
 
     var amortissement = simulator.GetAmortizationTable(investmentDetails);
 

@@ -12,8 +12,8 @@ public record OATSimulationInput(
     DateTime DateEcheance,
     double ValeurNominale,
     double MontantAPlacer,
-    string Prix,
-    string TauxRendement,
+    double Prix,
+    double TauxRendement,
     string Differe
 )
 {

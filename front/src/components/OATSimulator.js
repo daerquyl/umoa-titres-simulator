@@ -4,6 +4,7 @@ import OATSimulatorResult from "./OATSimulatorResult";
 import OATSimulatorInput from "./OATSimulatorInput";
 import {getResultOATs} from "../services/SimulatorService";
 import { TranslationService } from "../services/TranslationService";
+import { debounce } from 'lodash';
 
 const OATSimulator = ({lang}) => {
   const [formData, setFormData] = useState({
@@ -19,22 +20,34 @@ const OATSimulator = ({lang}) => {
       tauxRendement: "",
       differe: "0",
   })
-  const [results, setResults] = useState({
+
+  const initialResults = {
     prix: "",
     tauxRendement: "",
     couponCouru: "",
     interets: "",
     montantNet: "",
-  });
+  }
+
+  const [results, setResults] = useState(initialResults);
   const [newResultRetrieved, setNewResultRetrieved] = useState(false);
-  
+
+  const debouncedFetchData = debounce(async () => {
+    try {
+      if (!canSubmit()) {
+        setResults(initialResults);
+        return;
+      }
+      await submitForm();
+    } catch (error) {
+      console.error(error);
+    }
+  }, 300);
 
   useEffect(() => {
-    if(canSubmit())
-    { 
-      submitForm();
-    }
-  }, [formData])
+    debouncedFetchData();
+    return () => debouncedFetchData.cancel();
+  }, [formData]);
 
   const isFormValid = () => {
     return formData.modeAmortissement && 
@@ -60,15 +73,16 @@ const OATSimulator = ({lang}) => {
     }
   }
 
-  const submitForm = () => {
+  const submitForm = async () => {
     const launchSimulation = async () => {
-      let details = {...formData, maturiteEnAnnes: formData.maturiteEnAnnes || 0};
+      let defaultValues = {maturiteEnAnnes: formData.maturiteEnAnnes || 0, prix: formData.prix || 0, tauxRendement: formData.tauxRendement || 0};
+      let details = {...formData, ...defaultValues};
       let resultats = await getResultOATs(details);
       setResults(resultats);
       setNewResultRetrieved(true);
     }
 
-    launchSimulation();
+    await launchSimulation();
   }
 
   const updateFormData = (updates) => {

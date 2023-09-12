@@ -4,6 +4,8 @@ import {getResultBonds} from "../services/SimulatorService";
 import BondSimulatorResult from "./BondSimulatorResult";
 import { TranslationService } from "../services/TranslationService";
 
+import { debounce } from 'lodash'; // Import debounce from lodash
+
 const BondsSimulator = ({lang}) => {
   // Code pour le simulateur des obligations (Bonds)
   const [formData, setFormData] = useState({
@@ -23,14 +25,22 @@ const BondsSimulator = ({lang}) => {
 
   const [results, setResults] = useState(initialResults);
 
-  useEffect(() => {
-    if(canSubmit())
-    { 
-      submitForm();
-    }else{
-      setResults(prev => initialResults);
+  const debouncedFetchData = debounce(async () => {
+    try {
+      if (!canSubmit()) {
+        setResults(initialResults);
+        return;
+      }
+      await submitForm();
+    } catch (error) {
+      console.error(error);
     }
-  }, [formData])
+  }, 300);
+
+  useEffect(() => {
+    debouncedFetchData();
+    return () => debouncedFetchData.cancel();
+  }, [formData]);
 
   const isFormValid = () => {
     const isValid = formData.dateValeur &&
@@ -48,14 +58,14 @@ const BondsSimulator = ({lang}) => {
     return isFormValid();
   }
 
-  const submitForm = () => {
+  const submitForm = async () => {
     const launchSimulation = async () => {
       var data = !formData.montantAPlacer ? {...formData, montantAPlacer: 0} : formData;
       let resultats = await getResultBonds(data);
       setResults(resultats);
     }
 
-    launchSimulation();
+    await launchSimulation();
   }
 
   return (

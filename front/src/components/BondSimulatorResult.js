@@ -11,19 +11,19 @@ const BondSimulatorResult = ({results, lang}) => {
         <tbody>
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("maturite_residuel", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary">{results.maturiteResiduelle ?? 0} jours</span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary">{results?.maturiteResiduelle ?? 0} jours</span></td>
           </tr>
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("taux_rendement", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary"><RateFormat value={results.tauxRendement} /></span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><RateFormat value={results?.tauxRendement} /></span></td>
           </tr>
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("montant_net", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary"><XofFormat value={results.montantNet} /></span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><XofFormat value={results?.montantNet} /></span></td>
           </tr>
           <tr>
             <td className="w-60 fw-bold bg-light">{TranslationService.translate("interets", lang)}:</td>
-            <td className="w-30 bg-light"><span className="badge bg-secondary"><XofFormat value={results.interets} /></span></td>
+            <td className="w-30 bg-light"><span className="badge bg-secondary"><XofFormat value={results?.interets} /></span></td>
           </tr>
         </tbody>
       </table>
