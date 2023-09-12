@@ -31,11 +31,16 @@ public class BondSimulator : IBondSimulator
 
     public int CalculMaturiteResiduelle(BondInvestmentDetails details)
     {
-        return details.DateValeur.DaysBetween(details.DateEcheance) + 1;
+        var maturiteRes = details.DateValeur.DaysBetween(details.DateEcheance) + 1;
+        return maturiteRes;
     }
 
     public double CalculRendement(BondInvestmentDetails details)
     {
-        return (details.Coupon / 100) / (1 - (details.Coupon / 100) * (CalculMaturiteResiduelle(details) / 360)) * 100;
+        var couponPercent = details.Coupon / 100;
+        var maturiteResiduellePer360 = (double)CalculMaturiteResiduelle(details) / 360;
+        var numerator = couponPercent;
+        var quotient = 1 - couponPercent * maturiteResiduellePer360;
+        return couponPercent / quotient * 100;
     }
 }

@@ -85,7 +85,7 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
 
   return (
     <div>
-      {formDetails.map((field, index) => (FormBuilder.buildFieldGroup(field)))}
+      {formDetails.map((field, index) => (FormBuilder.buildFieldGroup(field, index, lang)))}
     </div>
   );  
 };

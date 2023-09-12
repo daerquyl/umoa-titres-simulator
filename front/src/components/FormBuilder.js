@@ -36,11 +36,11 @@ export const FormBuilder = {
     />
   ),
 
-  buildNumberFormat: (field) => (
+  buildNumberFormat: (field, lang) => (
     <NumericFormat
       className="form-control form-control-sm"
       thousandSeparator=" "
-      decimalSeparator="."
+      decimalSeparator={lang == 'en' ? "." : ","}
       decimalScale={0}
       fixedDecimalScale={true}
       allowNegative={false}
@@ -56,10 +56,10 @@ export const FormBuilder = {
     />
   ),
 
-  buildPercentFormat: (field) => (
+  buildPercentFormat: (field, lang) => (
     <NumericFormat
       className="form-control form-control-sm"
-      decimalSeparator="."
+      decimalSeparator={lang == 'en' ? "." : ","}
       decimalScale={4}
       fixedDecimalScale={false}
       allowNegative={false}
@@ -67,7 +67,7 @@ export const FormBuilder = {
       suffix=" %"
       value={field.value}
       onValueChange={values => {
-        field.onChange({ target: { value: values.value, name: field.name } });
+        field.onChange({ target: { value: values.floatValue, name: field.name } });
        }}
       onBlur={field.onBlur}
       name={field.name}
@@ -75,19 +75,19 @@ export const FormBuilder = {
     />
   ),
 
-  build: (field) => (field.options 
+  build: (field, lang) => (field.options 
     ? FormBuilder.buildSelect(field) 
     : field.formatNumber 
-      ? FormBuilder.buildNumberFormat(field)
+      ? FormBuilder.buildNumberFormat(field, lang)
       : field.formatPercent 
-        ? FormBuilder.buildPercentFormat(field) 
+        ? FormBuilder.buildPercentFormat(field, lang) 
         : FormBuilder.buildInput(field)),
 
-  buildFieldGroup: (field, index) => (
+  buildFieldGroup: (field, index, lang) => (
     <div className="form-group row" key={`${field.name}-${index}`}>
       <label className="col-md-8 col-form-label">{field.label}</label>
       <div className="col-md-4 col-sm-12">
-        {FormBuilder.build(field)}
+        {FormBuilder.build(field, lang)}
       </div>
     </div>
   )

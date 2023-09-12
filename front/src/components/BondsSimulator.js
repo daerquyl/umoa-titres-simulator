@@ -31,9 +31,7 @@ const BondsSimulator = ({lang}) => {
     const isValid = formData.dateValeur &&
     formData.dateEcheance && 
     formData.coupon && 
-    formData.valeurNominale && 
-    formData.montantAPlacer;
-
+    formData.valeurNominale
     return isValid;
   }
 
@@ -46,8 +44,10 @@ const BondsSimulator = ({lang}) => {
   }
 
   const submitForm = () => {
+    if(!formData.montantAPlacer) updateFormData({montantAPlacer: 0})
     const launchSimulation = async () => {
-      let resultats = await getResultBonds(formData);
+      var data = !formData.montantAPlacer ? {...formData, montantAPlacer: 0} : formData;
+      let resultats = await getResultBonds(data);
       setResults(resultats);
     }
 

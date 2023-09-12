@@ -60,7 +60,7 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
           <div class="table-responsive">
             <table className="table table-striped mt-2" style={{fontSize: "0.75em"}}>
               <thead>
-                <th>{TranslationService.translate("ta_fraction", lang)}</th>
+                <th >{TranslationService.translate("ta_fraction", lang)}</th>
                 <th>{TranslationService.translate("ta_date", lang)}</th>
                 <th>{TranslationService.translate("ta_encours_debut", lang)}</th>
                 <th>{TranslationService.translate("ta_interet", lang)}</th>
