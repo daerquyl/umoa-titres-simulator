@@ -44,7 +44,6 @@ const BondsSimulator = ({lang}) => {
   }
 
   const submitForm = () => {
-    if(!formData.montantAPlacer) updateFormData({montantAPlacer: 0})
     const launchSimulation = async () => {
       var data = !formData.montantAPlacer ? {...formData, montantAPlacer: 0} : formData;
       let resultats = await getResultBonds(data);
