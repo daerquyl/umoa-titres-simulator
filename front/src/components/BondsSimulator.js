@@ -28,7 +28,7 @@ const BondsSimulator = ({lang}) => {
     { 
       submitForm();
     }else{
-      setResults(initialResults);
+      setResults(prev => initialResults);
     }
   }, [formData])
 
