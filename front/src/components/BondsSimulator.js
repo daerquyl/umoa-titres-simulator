@@ -13,17 +13,22 @@ const BondsSimulator = ({lang}) => {
       valeurNominale : "1000000",
       montantAPlacer: "",
   })
-  const [results, setResults] = useState({
+
+  const initialResults = {
     interets: "",
     montantNet: "",
     tauxRendement: "",
     maturiteResiduelle: ""
-  });
+  };
+
+  const [results, setResults] = useState(initialResults);
 
   useEffect(() => {
     if(canSubmit())
     { 
       submitForm();
+    }else{
+      setResults(initialResults);
     }
   }, [formData])
 
