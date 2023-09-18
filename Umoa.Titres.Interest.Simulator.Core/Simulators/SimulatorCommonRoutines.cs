@@ -33,8 +33,8 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
         (double value, DateTime date) echeance(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => (valeurNominaleDouble * coupon, dateEcheance.AddYears(-(duree - iteration))),
-            InvestmentPeriodicityType.S => (valeurNominaleDouble / factor * coupon, dateEcheance.RemoveSemesters(duree - iteration)),
-            InvestmentPeriodicityType.T => (valeurNominaleDouble / factor * coupon, dateEcheance.RemoveTrimesters(duree - iteration)),
+            InvestmentPeriodicityType.S => (valeurNominaleDouble / factor * coupon, DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration + 1) * 6) + 6, dateEcheance.Day)),
+            InvestmentPeriodicityType.T => (valeurNominaleDouble / factor * coupon, DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration + 1) * 3) + 3, dateEcheance.Day)),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
@@ -70,17 +70,20 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
         DateTime echeance(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees - iteration)),
-            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters(dureeEnAnnees - iteration),
-            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters(dureeEnAnnees - iteration),
+            InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration + 1) * 6) + 6, dateEcheance.Day),
+            InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration + 1) * 3) + 3, dateEcheance.Day),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
-        DateTime echeance2(int iteration) => periodicite switch
-        {
-            InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
-            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters((dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
-            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters((dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
-            _ => throw new InvalidOperationException("Invalid periodicity type")
+        var echeance2 = (int iteration) => {
+            var iteration2 = iteration + differe + 1;
+            return periodicite switch
+            {
+                InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
+                InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration2 + 1) * 6) + 6, dateEcheance.Day),
+                InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration2 + 1) * 3) + 3, dateEcheance.Day),
+                _ => throw new InvalidOperationException("Invalid periodicity type")
+            };
         };
 
         int annRest = (int)Math.Ceiling(dateValeur.YearFraction(dateEcheance) * factor) ;

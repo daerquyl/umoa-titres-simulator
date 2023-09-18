@@ -56,7 +56,6 @@ const OATSimulator = ({lang}) => {
     formData.coupon && 
     formData.dateEcheance && 
     formData.valeurNominale && 
-    formData.montantAPlacer &&
     (formData.prix || formData.tauxRendement)
   }
 
@@ -68,6 +67,7 @@ const OATSimulator = ({lang}) => {
     return {
       ...formData,
       maturiteEnAnnes: formData.maturiteEnAnnes || 0,
+      montantAPlacer: formData.montantAPlacer || 0,
       prix: `${results.prix}` || "",
       tauxRendement: `${results.tauxRendement}` || ""
     }
@@ -75,7 +75,13 @@ const OATSimulator = ({lang}) => {
 
   const submitForm = async () => {
     const launchSimulation = async () => {
-      let defaultValues = {maturiteEnAnnes: formData.maturiteEnAnnes || 0, prix: formData.prix || 0, tauxRendement: formData.tauxRendement || 0};
+      let defaultValues = {
+        maturiteEnAnnes: formData.maturiteEnAnnes || 0, 
+        prix: formData.prix || 0, 
+        tauxRendement: formData.tauxRendement || 0,
+        montantAPlacer: formData.montantAPlacer || 0
+      };
+
       let details = {...formData, ...defaultValues};
       let resultats = await getResultOATs(details);
       setResults(resultats);

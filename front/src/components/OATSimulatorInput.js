@@ -36,7 +36,9 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
   const onEmetteurChange = async (event) => {
     const newEmetteur = event.target.value;
     setEmetteur(newEmetteur);
-    setIsins(await getISINs(newEmetteur));
+    if(newEmetteur){
+      setIsins(await getISINs(newEmetteur));
+    }
   };
 
   const onIsinChange = async (event) => {
@@ -46,7 +48,9 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
     let details = await getOATSimulationDetails(newIsin)
     updateFormData(details);
 
-    setIsInFine(details.modeAmortissement == "IF");
+    if(newIsin){
+      setIsInFine(details.modeAmortissement == "IF");
+    }
   };
 
   const onModeAmortissementChanged = (e) => {

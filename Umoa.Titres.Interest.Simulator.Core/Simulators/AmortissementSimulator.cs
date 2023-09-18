@@ -2,6 +2,7 @@
 using System.Numerics;
 using Umoa.Titres.Interest.Simulator.Core.Models;
 using Umoa.Titres.Interest.Simulator.Core.Utils;
+using Microsoft.VisualBasic;
 
 namespace Umoa.Titres.Interest.Simulator.Core.Simulators;
 
@@ -55,16 +56,16 @@ public class AmortissementSimulator : IAmortissementSimulator
             _ => 1
         };
 
+        var duree = maturiteReelle * factor;
 
         DateTime periode(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => dateEcheance.AddYears(-(maturiteReelle - iteration)),
-            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters(maturiteReelle * factor - iteration),
-            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters(maturiteReelle * factor - iteration),
+            InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration + 1) * 6) + 6, dateEcheance.Day),
+            InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration + 1) * 3) + 3, dateEcheance.Day),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
-        var duree = maturiteReelle * factor;
 
         var cursorEcheancier = 0;
 
@@ -75,11 +76,10 @@ public class AmortissementSimulator : IAmortissementSimulator
             if (dateValeur < periodeCourante)
             {
                 
-
-                var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
-
                 var date = periodeCourante;
-                var multiplicator = periodicite == InvestmentPeriodicityType.A ? periodePrecedente.YearFraction(periodeCourante) : 1.0 / factor;
+                var multiplicator = periodicite == InvestmentPeriodicityType.A
+                    ? new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day).YearFraction(periodeCourante)
+                    : 1.0 / factor;
                 var interet = montantAPlacer * coupon * multiplicator;
                 var fraction = cursorEcheancier == 0
                     ? dateValeur.YearFraction(date)
@@ -187,17 +187,24 @@ public class AmortissementSimulator : IAmortissementSimulator
         DateTime echeance(int iteration) => periodicite switch
         {
             InvestmentPeriodicityType.A => dateEcheance.AddYears(-(duree - iteration)),
-            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters(duree - iteration),
-            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters(duree - iteration),
+            InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration + 1) * 6) + 6, dateEcheance.Day),
+            InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration + 1) * 3) + 3, dateEcheance.Day),
             _ => throw new InvalidOperationException("Invalid periodicity type")
         };
 
-        DateTime echeance2(int iteration) => periodicite switch
+        var echeance2 = (int iteration) =>
         {
-            InvestmentPeriodicityType.A => dateEcheance.AddYears(-(duree * 2 - duree - iteration - differe - 1)),
-            InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters((duree * 2 - duree - iteration - differe - 1)),
-            InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters((duree * 2 - duree - iteration - differe - 1)),
-            _ => throw new InvalidOperationException("Invalid periodicity type")
+            var iteration2 = iteration + differe + 1;
+            return periodicite switch
+            {
+                //InvestmentPeriodicityType.A => dateEcheance.AddYears(-(duree * 2 - duree - iteration - differe - 1)),
+                //InvestmentPeriodicityType.S => dateEcheance.RemoveSemesters((duree * 2 - duree - iteration - differe - 1)),
+                //InvestmentPeriodicityType.T => dateEcheance.RemoveTrimesters((duree * 2 - duree - iteration - differe - 1)),
+                InvestmentPeriodicityType.A => dateEcheance.AddYears(-(duree - iteration2)),
+                InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration2 + 1) * 6) + 6, dateEcheance.Day),
+                InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((duree - iteration2 + 1) * 3) + 3, dateEcheance.Day),
+                _ => throw new InvalidOperationException("Invalid periodicity type")
+            };
         };
 
         Func<int, DateTime, DateTime, double> calculateValue2 = (iteration, periodePrecedente, periodeCourante)
