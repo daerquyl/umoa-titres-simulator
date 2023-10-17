@@ -68,8 +68,8 @@ const OATSimulator = ({lang}) => {
       ...formData,
       maturiteEnAnnes: formData.maturiteEnAnnes || 0,
       montantAPlacer: formData.montantAPlacer || 0,
-      prix: `${results.prix}` || "",
-      tauxRendement: `${results.tauxRendement}` || ""
+      prix: `${results?.prix}` || "",
+      tauxRendement: `${results?.tauxRendement}` || ""
     }
   }
 
@@ -77,7 +77,7 @@ const OATSimulator = ({lang}) => {
     const launchSimulation = async () => {
       let defaultValues = {
         maturiteEnAnnes: formData.maturiteEnAnnes || 0, 
-        prix: formData.prix || 0, 
+        prix: formData?.prix || 0, 
         tauxRendement: formData.tauxRendement || 0,
         montantAPlacer: formData.montantAPlacer || 0
       };

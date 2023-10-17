@@ -80,8 +80,8 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
             return periodicite switch
             {
                 InvestmentPeriodicityType.A => dateEcheance.AddYears(-(dureeEnAnnees * 2 - dureeEnAnnees - iteration - differe - 1)),
-                InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration2 + 1) * 6) + 6, dateEcheance.Day),
-                InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration2 + 1) * 3) + 3, dateEcheance.Day),
+                //InvestmentPeriodicityType.S => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration2 + 1) * 6) + 6, dateEcheance.Day),
+                //InvestmentPeriodicityType.T => DateAndTime.DateSerial(dateEcheance.Year, dateEcheance.Month - ((dureeEnAnnees - iteration2 + 1) * 3) + 3, dateEcheance.Day),
                 _ => throw new InvalidOperationException("Invalid periodicity type")
             };
         };
@@ -92,7 +92,7 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
             valeurNominale = valeurNominale * (dureeEnAnnees - differe) / annRest;
         }
 
-        Func<int, DateTime, DateTime, double> calculateValue2 = (iteration, periodePrecedente, periodeCourante) => (valeurNominale - valeurNominale / (dureeEnAnnees - differe) * iteration) * coupon * periodePrecedente.YearFraction(periodeCourante);
+        Func<int, double> calculateValue2 = (iteration) => (valeurNominale - (valeurNominale / (dureeEnAnnees - differe)) * iteration) * coupon;
 
         Action<int> updateEcheancier = (index) =>
         {
@@ -101,23 +101,31 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
         };
 
         var parallelIteration = 0;
+        var semesterAndTrimesterIteration = 0;
         var cursor = 0;
+        var iterationIncrement = 0;
 
         DateTime periodeCourante = new DateTime();
-        DateTime parallelPeriodeCourante = new DateTime();
+
+        var multiplicator = (DateTime periode, int factor, InvestmentPeriodicityType periodicite) =>
+        {
+            var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
+            return periodicite == InvestmentPeriodicityType.A ? periodePrecedente.YearFraction(periodeCourante) : 1.0 / factor;
+        };
+
         for (int iteration = 1; iteration <= (differe + (dureeEnAnnees - differe) * 2); iteration++)
             {
                 bool isEven = differe % 2 == 0;
 
                 if ((iteration - 1 - differe) <= 0)
                 {
-                    periodeCourante = echeance(iteration);
-                    var periodePrecedente = new DateTime(periodeCourante.Year - 1, periodeCourante.Month, periodeCourante.Day);
-
+                    periodeCourante = periodicite == InvestmentPeriodicityType.A
+                        ? echeance(iteration)
+                        : echeance(++semesterAndTrimesterIteration);
+                    
                     if (dateValeur <= periodeCourante)
                     {
-                        var taux = periodicite == InvestmentPeriodicityType.A ? periodePrecedente.YearFraction(periodeCourante) : 1.0/factor;
-                        echeancier.Add((valeurNominale * coupon * taux, periodeCourante));
+                        echeancier.Add((valeurNominale * coupon * multiplicator(periodeCourante, factor, periodicite), periodeCourante));
                         cursor++;
                     }
                 }
@@ -133,14 +141,16 @@ public class SimulatorCommonRoutines : ISimulatorCommonRoutines
                     else
                     {
                         parallelIteration++;
-                        parallelPeriodeCourante = echeance2(parallelIteration);
-                        var parallelPeriodePrecedente = new DateTime(parallelPeriodeCourante.Year - 1, parallelPeriodeCourante.Month, parallelPeriodeCourante.Day);
 
-                        if (dateValeur <= parallelPeriodeCourante)
+                        periodeCourante = periodicite == InvestmentPeriodicityType.A
+                            ? echeance2(parallelIteration)
+                            : echeance(++semesterAndTrimesterIteration);
+
+
+                        if (dateValeur <= periodeCourante)
                         {
-                            var multiplicator = periodicite == InvestmentPeriodicityType.A ? parallelPeriodePrecedente.YearFraction(parallelPeriodeCourante) : 1.0 / factor;
-                            var value = calculateValue2(parallelIteration, parallelPeriodePrecedente, parallelPeriodeCourante) * multiplicator;
-                            echeancier.Add((value, parallelPeriodeCourante));
+                            var value = calculateValue2(parallelIteration) * multiplicator(periodeCourante, factor, periodicite);
+                            echeancier.Add((value, periodeCourante));
                             cursor++;
                         }
                     }

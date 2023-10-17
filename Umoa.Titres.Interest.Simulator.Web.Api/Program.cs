@@ -50,6 +50,12 @@ app.UseCors();
 
 app.UseStaticFiles();
 
+
+app.UseExceptionHandler(exceptionHandlerApp
+    => exceptionHandlerApp.Run(async context
+        => await Results.Problem()
+                     .ExecuteAsync(context)));
+
 app.MapGet("/simulator/amortization_modes", () => 
 {
     var modes = new List<EnumWithDescription>(){
