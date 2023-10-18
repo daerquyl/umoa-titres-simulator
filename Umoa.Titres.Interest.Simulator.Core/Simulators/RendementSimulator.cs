@@ -38,7 +38,7 @@ public class RendementSimulator : IRendementSimulator
             details.Differe
         ) * 100;
 
-        return Math.Round(rendement_per_cent, 2);
+        return rendement_per_cent;
     }
 
     private double CalculRendement(AmortizationType modeAmortissement, double valeurNominale, int dureeEnAnnees, double coupon, double prix, InvestmentPeriodicityType periodicite, DateTime dateValeur, DateTime dateEcheance, int differe)

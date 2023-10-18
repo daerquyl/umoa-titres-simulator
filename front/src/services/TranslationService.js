@@ -55,9 +55,12 @@ export const TranslationService = {
 
         taux_pre_compte: {fr: "Taux Pré Compté", en: "Rate Pré Compté"},
 
-        maturite_residuel: {fr: "Maturité résiduel", en: "Remaining Maturity"},
+        maturite_residuel: {fr: "Maturité résiduelle", en: "Remaining Maturity"},
         
         close_modal: {fr: "Fermer", en: "Close"},
+
+        years: {fr: "Ans", en: "Years"},
+        days: {fr: "Jours", en: "Days"},
     },
 
     translate: (word, lang) => {

@@ -1,4 +1,5 @@
 using Umoa.Titres.Interest.Simulator.Core.Models;
+using Umoa.Titres.Interest.Simulator.Core.Utils;
 
 namespace Umoa.Titres.Interest.Simulator.Core.Simulators;
 
@@ -9,6 +10,8 @@ public interface IOATSimulator
     double CalculRendement(OATInvestmentDetails details);
 
     double CalculCouponCouru(DateTime dateEcheance, DateTime dateValeur, int maturiteEnAnnes, double coupon, InvestmentPeriodicityType periodicite);
+
+    Duration CalculDureeResiduelle(DateTime dateEcheance, DateTime dateValeur);
 
     OATAmortizationTable CalculAmortissement(OATInvestmentDetails details);
 }
@@ -36,6 +39,8 @@ public class OATSimulator : IOATSimulator
 
     public double CalculCouponCouru(DateTime dateEcheance, DateTime dateValeur, int maturiteEnAnnes, double coupon, InvestmentPeriodicityType periodicite)
         => couponCouruSimulator.CalculCouponCouru(dateEcheance, dateValeur, maturiteEnAnnes, coupon, periodicite);
+
+    public Duration CalculDureeResiduelle(DateTime dateEcheance, DateTime dateValeur) => dateValeur.DurationBetween(dateEcheance);
 
     public OATAmortizationTable CalculAmortissement(OATInvestmentDetails details) => amortissementSimulator.CalculAmortissement(details);
 

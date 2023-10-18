@@ -60,7 +60,7 @@ export const FormBuilder = {
     <NumericFormat
       className="form-control form-control-sm"
       decimalSeparator={lang == 'en' ? "." : ","}
-      decimalScale={4}
+      decimalScale={12}
       fixedDecimalScale={false}
       allowNegative={false}
       prefix=""

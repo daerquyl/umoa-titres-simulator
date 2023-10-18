@@ -92,8 +92,7 @@ app.MapGet("/simulator/isins/details/{isin}", (string isin, IIsinsService isinSe
     return isinService.GetIsinDetails(isin);
 });
 
-app.MapPost("/simulator/run/oat", ([FromBody] OATSimulationInput details, ISimulatorController simulator) => {
-    var investmentDetails = new OATInvestmentDetails(
+app.MapPost("/simulator/run/oat", ([FromBody] OATSimulationInput details, ISimulatorController simulator) => {    var investmentDetails = new OATInvestmentDetails(
         Enum.Parse<AmortizationType>(details.ModeAmortissement),
         Enum.Parse<InvestmentPeriodicityType>(details.Periodicite),
         details.DateValeur,

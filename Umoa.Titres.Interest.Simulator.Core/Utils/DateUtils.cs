@@ -1,6 +1,18 @@
 using System.Linq;
 namespace Umoa.Titres.Interest.Simulator.Core.Utils;
 
+public class Duration
+{
+    public int Years { get; }
+    public int Days { get; }
+
+    public Duration(int years, int days)
+    {
+        Years = years;
+        Days = days;
+    }
+}
+
 public static class DateUtil 
 {
     public static double YearFraction(this DateTime startDate, DateTime endDate, int basis = 1)
@@ -113,6 +125,31 @@ public static class DateUtil
     {
         TimeSpan difference = endDate - startDate;
         return difference.Days;
+    }
+
+    public static int DaysBetweenIncludingLastDay(this DateTime startDate, DateTime endDate) => startDate.DaysBetween(endDate) + 1;
+
+    public static Duration DurationBetween(this DateTime startDate, DateTime endDate)
+    {
+        var years = 0;
+        var days = 0;
+
+        var anniversaryDate = startDate;
+        while (startDate <= endDate)
+        {
+            anniversaryDate = anniversaryDate.AddYears(1);
+            if(anniversaryDate <= endDate)
+            {
+                years++;
+            }
+            else
+            {
+                days = anniversaryDate.AddYears(-1).DaysBetweenIncludingLastDay(endDate);
+                break;
+            }
+        }
+
+        return new Duration(years, days);
     }
 
     public static DateTime RemoveSemesters(this DateTime date, int semesters)

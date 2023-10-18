@@ -1,4 +1,6 @@
 ﻿using System;
+using Umoa.Titres.Interest.Simulator.Core.Utils;
+
 namespace Umoa.Titres.Interest.Simulator.Web.Api.Dto;
 
 public record SimulationResults() { }
@@ -10,8 +12,9 @@ public record OATSimulationResults : SimulationResults
     public double TauxRendement { get; set; }
     public double MontantNet { get; set; }
     public double Interets { get; set; }
+    public Duration DureeResiduelle { get; set; }
 
-    public OATSimulationResults(double couponCouru, double prix, double tauxRendement, double montantNet, double interets)
+    public OATSimulationResults(double couponCouru, double prix, double tauxRendement, double montantNet, double interets, Duration dureeResiduelle)
         : base()
     {
         CouponCouru = couponCouru;
@@ -19,9 +22,10 @@ public record OATSimulationResults : SimulationResults
         TauxRendement = tauxRendement;
         MontantNet = montantNet;
         Interets = interets;
+        DureeResiduelle = dureeResiduelle;
     }
 }
 
-public record BondSimulationResults(double MontantNet, double Interets, int MaturiteResiduelle, double TauxRendement) : SimulationResults
+public record BondSimulationResults(double MontantNet, double Interets, Duration DureeResiduelle, double TauxRendement) : SimulationResults
 { }
 

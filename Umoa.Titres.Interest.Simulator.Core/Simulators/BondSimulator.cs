@@ -9,7 +9,7 @@ public interface IBondSimulator
 	double CalculRendement(BondInvestmentDetails details);
 	double CalculInterets(BondInvestmentDetails details);
 	double CalculMontantNet(BondInvestmentDetails details);
-    int CalculMaturiteResiduelle(BondInvestmentDetails investmentDetails);
+    Duration CalculMaturiteResiduelle(BondInvestmentDetails investmentDetails);
 }
 
 public class BondSimulator : IBondSimulator
@@ -29,16 +29,17 @@ public class BondSimulator : IBondSimulator
         return details.MontantAPlacer * (1 - (details.Coupon / 100) * details.DateValeur.YearFraction(details.DateEcheance.AddDays(1), 2));
     }
 
-    public int CalculMaturiteResiduelle(BondInvestmentDetails details)
+    public Duration CalculMaturiteResiduelle(BondInvestmentDetails details)
     {
-        var maturiteRes = details.DateValeur.DaysBetween(details.DateEcheance) + 1;
+        var maturiteRes = details.DateValeur.DurationBetween(details.DateEcheance);
         return maturiteRes;
     }
 
     public double CalculRendement(BondInvestmentDetails details)
     {
         var couponPercent = details.Coupon / 100;
-        var maturiteResiduellePer360 = (double)CalculMaturiteResiduelle(details) / 360;
+        var maturiteResiduelle = details.DateValeur.DaysBetweenIncludingLastDay(details.DateEcheance);
+        var maturiteResiduellePer360 = (double)maturiteResiduelle / 360;
         var numerator = couponPercent;
         var quotient = 1 - couponPercent * maturiteResiduellePer360;
         return couponPercent / quotient * 100;

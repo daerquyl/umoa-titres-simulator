@@ -48,7 +48,9 @@ public class SimulatorController : ISimulatorController
         montantNet = details.MontantAPlacer * (prix + couponCouru) / 100;
         interets = details.MontantAPlacer * couponCouru / 100;
 
-        return new OATSimulationResults(couponCouru, prix, rendement, Utils.Round(montantNet), Utils.Round(interets));
+        var dureeResiduelle = oatSimulator.CalculDureeResiduelle(details.DateEcheance, details.DateValeur);
+
+        return new OATSimulationResults(couponCouru, prix, rendement, Utils.Round(montantNet), Utils.Round(interets), dureeResiduelle);
 
     }
 

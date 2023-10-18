@@ -45,7 +45,7 @@ public class CouponCouruSimulator : ICouponCouruSimulator
                 DateTime periode1 = periode(iteration - 1);
                 var preperiodeCourante = new DateTime(periodeCourante.Year-1, periodeCourante.Month, periodeCourante.Day);
                 var couponCouru = coupon * dateValeur.DaysBetween(periode1) / periodeCourante.DaysBetween(preperiodeCourante);
-                return Math.Round(couponCouru, 4);
+                return couponCouru;
             }
         }
 
