@@ -170,7 +170,7 @@ app.MapGet("/loadSimulator", (HttpContext httpContext) =>
 {
     var baselink = $"{httpContext.Request.Scheme}://{httpContext.Request.Host.Host}:{httpContext.Request.Host.Port}";
     var jsCode = File.ReadAllText("Resources/loadSimulator.js");
-    jsCode = jsCode.Replace("@baselink", baselink);
+    jsCode = jsCode.Replace("@baselink", baselink.TrimEnd(':'));
     return Results.Content(jsCode, "application/javascript");
 });
 
