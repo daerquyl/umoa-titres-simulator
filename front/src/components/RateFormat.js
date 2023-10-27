@@ -1,7 +1,7 @@
 import React from 'react';
 
 const format = (number) => {
-  if(number == 0) return 0;
+  if(number === 0) return 0;
 
   if (!number) return;
 

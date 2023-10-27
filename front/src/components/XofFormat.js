@@ -1,7 +1,7 @@
 import React from 'react';
 
 const numberToXOF = (number) => {
-  if(number == 0) return 0;
+  if(number === 0) return 0;
 
   if (!number) return;
 

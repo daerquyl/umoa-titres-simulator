@@ -1,5 +1,3 @@
-import { paste } from "@testing-library/user-event/dist/paste";
-
 export const TranslationService = {
     dictionary: {
         titre_principal: {fr: "Simulateur d'intérêts et de rentabilité", en: "Interest Simulator"},
@@ -65,6 +63,6 @@ export const TranslationService = {
 
     translate: (word, lang) => {
         let words = TranslationService.dictionary[word];
-        return words ? lang == "fr" ? words.fr : words.en : '';
+        return words ? lang === "fr" ? words.fr : words.en : '';
     },
 };

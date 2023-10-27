@@ -1,15 +1,15 @@
 import { TranslationService } from "../services/TranslationService";
 import RateFormat from "./RateFormat";
-import XofFormat from "./XOFFormat";
+import XofFormat from "./XofFormat";
 
 
 const OATSimulatorResult = ({results, lang}) => {
 
   const dureeResiduelleString = (duration, lang) => {
     let description = "";
-    let removePluralIfNeeded = (number, desc) => number == 1 ? desc.replace("s","") : desc;
-    description = duration?.years && duration?.years != 0 ? `${duration.years} ${removePluralIfNeeded(duration.years, TranslationService.translate("years", lang))}` : description;
-    description = duration?.days && duration?.days != 0 ? `${description} ${duration.days} ${removePluralIfNeeded(duration.days, TranslationService.translate("days", lang))}` : description;
+    let removePluralIfNeeded = (number, desc) => number === 1 ? desc.replace("s","") : desc;
+    description = duration?.years && duration?.years !== 0 ? `${duration.years} ${removePluralIfNeeded(duration.years, TranslationService.translate("years", lang))}` : description;
+    description = duration?.days && duration?.days !== 0 ? `${description} ${duration.days} ${removePluralIfNeeded(duration.days, TranslationService.translate("days", lang))}` : description;
     return description.trim();
   }
 

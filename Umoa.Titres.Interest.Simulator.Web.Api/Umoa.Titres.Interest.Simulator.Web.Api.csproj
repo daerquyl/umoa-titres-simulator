@@ -20,8 +20,17 @@
 
   <ItemGroup>
     <None Remove="Dto\" />
+    <None Remove="Resources\" />
+    <None Remove="Resources\loadSimulator.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dto\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\loadSimulator.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 </Project>

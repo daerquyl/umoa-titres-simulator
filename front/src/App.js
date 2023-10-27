@@ -10,7 +10,8 @@ const App = () => {
   const [activeTab, setActiveTab] = useState("OAT");
   const [lang, setLang] = useState("fr");
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = (tab, e) => {
+    e.preventDefault();
     setActiveTab(tab);
   };
 
@@ -30,16 +31,18 @@ const App = () => {
       <ul className="nav nav-pills nav-fill nav-justified">
         <li className="nav-item">
           <a
+            href="#"
             className={`fw-bold nav-link ${activeTab === "OAT" ? "active bg-secondary" : "bg-light"}`}
-            onClick={() => handleTabChange("OAT")}
+            onClick={(e) => handleTabChange("OAT", e)}
           >
             {TranslationService.translate("titre_ot", lang)}
           </a>
         </li>
         <li className="nav-item">
           <a
+            href="#"
             className={`fw-bold nav-link ${activeTab === "BONDS" ? "active bg-secondary" : "bg-light"}`}
-            onClick={() => handleTabChange("BONDS")}
+            onClick={(e) => handleTabChange("BONDS", e)}
           >
             {TranslationService.translate("titre_bons", lang)}
           </a>

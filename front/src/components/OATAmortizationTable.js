@@ -5,7 +5,7 @@ import { getAmortizationTable } from "../services/SimulatorService";
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import XofFormat from "./XOFFormat";
+import XofFormat from "./XofFormat";
 
 const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved, data}) => {
   const [afficherTableauAmortissement, setAfficherTableauAmortissement] = useState(false);
@@ -14,8 +14,8 @@ const OATAmortizationTable = ({lang, newResultRetrieved, resetNewResultRetrieved
   useEffect(() => {
     const fetchAmortization = async () => {
       if(shouldFetchAmortizationTable()){
-        data = await getAmortizationTable(data)
-        setAmortizationTable(data)
+        const results = await getAmortizationTable(data)
+        setAmortizationTable(results)
         resetNewResultRetrieved();
       }
     }

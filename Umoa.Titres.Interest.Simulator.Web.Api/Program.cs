@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -20,11 +21,18 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
+
 });
+
+//builder.Services.AddLogging(builder =>
+//{
+//    builder.AddConsole();
+//    builder.AddFilter("Microsoft.AspNetCore.Cors", LogLevel.Trace);
+//});
 
 builder.Services.AddSingleton<IDataLoader, DataLoader>();
 builder.Services.AddSingleton<IIsinsService, IsinsService>();
@@ -156,6 +164,14 @@ app.MapPost("/simulator/amortization/oat", ([FromBody] OATSimulationInput detail
         EncoursFin = Utils.Round(line.EncoursFin),
         Service = Utils.Round(line.Service)
     }).ToList();
+});
+
+app.MapGet("/loadSimulator", (HttpContext httpContext) =>
+{
+    var baselink = $"{httpContext.Request.Scheme}://{httpContext.Request.Host.Host}:{httpContext.Request.Host.Port}";
+    var jsCode = File.ReadAllText("Resources/loadSimulator.js");
+    jsCode = jsCode.Replace("@baselink", baselink);
+    return Results.Content(jsCode, "application/javascript");
 });
 
 app.Run();

@@ -40,7 +40,7 @@ export const FormBuilder = {
     <NumericFormat
       className="form-control form-control-sm"
       thousandSeparator=" "
-      decimalSeparator={lang == 'en' ? "." : ","}
+      decimalSeparator={lang === 'en' ? "." : ","}
       decimalScale={0}
       fixedDecimalScale={true}
       allowNegative={false}
@@ -59,7 +59,7 @@ export const FormBuilder = {
   buildPercentFormat: (field, lang) => (
     <NumericFormat
       className="form-control form-control-sm"
-      decimalSeparator={lang == 'en' ? "." : ","}
+      decimalSeparator={lang === 'en' ? "." : ","}
       decimalScale={12}
       fixedDecimalScale={false}
       allowNegative={false}

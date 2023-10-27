@@ -49,12 +49,12 @@ const OATSimulatorInput = ({formData, updateFormData, triggerSubmit, lang}) => {
     updateFormData(details);
 
     if(newIsin){
-      setIsInFine(details.modeAmortissement == "IF");
+      setIsInFine(details.modeAmortissement === "IF");
     }
   };
 
   const onModeAmortissementChanged = (e) => {
-    var isInFine = e.target.value == "IF";
+    var isInFine = e.target.value === "IF";
 
     var updates = {
       modeAmortissement: e.target.value,
