@@ -25,11 +25,13 @@ RUN dotnet publish -c Release -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 COPY --from=publish /app .
+RUN mkdir -p /app/certificate
 
 # Set the environment variable for the port
 ENV ASPNETCORE_ENVIRONMENT Production
 ENV DOTNET_RUNNING_IN_CONTAINER true
 ENV DOTNET_ENVIRONMENT Production
+ENV ASPNETCORE_HTTPS_PROTOCOL TLSv12
 
 # Set the entry point for the container
 ENTRYPOINT ["dotnet", "Umoa.Titres.Interest.Simulator.Web.Api.dll"]
