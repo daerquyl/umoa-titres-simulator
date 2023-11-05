@@ -26,6 +26,10 @@
   <ItemGroup>
     <Folder Include="Dto\" />
     <Folder Include="Resources\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\loadSimulator.js">
